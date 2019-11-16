@@ -1,0 +1,218 @@
+<div class="container">
+    <div class="header">
+
+    </div>
+    <div class="instr">
+            <mat-card class="cardInstr">
+                    <mat-card-title> 
+                        Register an account
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        First select the type of user you like to register
+                    </mat-card-subtitle>
+                    <a (click)="goToCompany()" mat-raised-button>Company</a>
+                    <a (click)="goToPerson()" mat-raised-button>Person</a>
+            </mat-card>
+    </div>
+    <div class="companyForm" id="companyForm" >
+        <mat-card>
+                <mat-card-title> 
+                        Register an Company
+                </mat-card-title>
+                <mat-card-subtitle>
+                        Please fill out the entire form
+                </mat-card-subtitle>
+                <mat-card class="entry">
+            <form>
+                        <div class="userPassCompany">
+                                        <p>
+                                                <mat-form-field class="example-full-width input">
+                                                <input  matInput placeholder="User" required>        
+                                                </mat-form-field>   
+                                                </p>
+                                                <p>
+                                                                <mat-form-field class="example-full-width input">
+                                                 <input matInput placeholder="Enter your password" [type]="hide ? 'text' : 'password'">
+                                                <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                </a>
+                                                </mat-form-field>
+                                        </p>
+                                </div>
+                <div class="name">
+                <mat-form-field class="example-full-width input nameinput">
+                    <input  matInput placeholder="Name of the company" required>
+                
+                </mat-form-field> 
+                </div>  
+                <div class="addressInfo">
+                <mat-card-subtitle>
+                        Address
+                </mat-card-subtitle>
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Province" >
+
+                </mat-form-field>
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Canton" >
+
+                </mat-form-field>
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="District" >
+
+                </mat-form-field>
+                </div>
+                
+                <div class="mediaInfo">
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Phone number" >
+
+                </mat-form-field>
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Website" >
+
+                </mat-form-field>
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Contact name" >
+
+                </mat-form-field>
+                </div>
+                <div class="url">
+                <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Logo url" >
+
+                </mat-form-field>
+                </div>
+                <div class="divButton">
+                <a mat-raised-button class="button"  color="primary">Submit</a>
+                </div>
+        </form>
+    </mat-card>
+    </mat-card>
+    </div>
+    <div class="userForm" id="userForm">
+        <mat-card class="firstCard">
+        <mat-card-title> 
+            Register yourself
+           </mat-card-title>
+        <mat-card-subtitle>
+            Please fill out the entire form
+        </mat-card-subtitle>
+            <mat-card class="generalInfo">
+                <form>
+                <mat-card-title> 
+                   General information                        
+                </mat-card-title>
+                <div class="userPass">
+                        <p>
+                                <mat-form-field class="example-full-width input">
+                                <input  matInput placeholder="User" required>        
+                                </mat-form-field>   
+                                </p>
+                                <p>
+                                                <mat-form-field class="example-full-width input">
+                                 <input matInput placeholder="Enter your password" [type]="hide ? 'text' : 'password'">
+                                <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </a>
+                                </mat-form-field>
+                        </p>
+                </div>
+                <div class="nameOfUsers">
+                        <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="First Name" required>        
+                        </mat-form-field>   
+                        <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Last Names" required>        
+                        </mat-form-field>  
+                </div>
+                <div class="countryDiv">
+                        <mat-form-field class="country">
+                        <mat-label>nationality </mat-label>
+                        <mat-select  required>
+                        <mat-option value="usa" >Usa</mat-option>
+                        </mat-select>
+                        </mat-form-field>
+               
+                
+                        <mat-card-subtitle class="Address">
+                         Address 
+                        </mat-card-subtitle>
+                        
+                        <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Province" required>
+                
+                        </mat-form-field>                                
+                        <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="Canton" required>
+                
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                        <input  matInput placeholder="District" required>
+                        </mat-form-field>
+                
+                </div>
+                <div class="mediaUser">
+                        <mat-card-subtitle class="subTitle">
+                         Contact information
+                        </mat-card-subtitle>
+                        <mat-form-field class="example-full-width input" required>
+                          <input  matInput placeholder="Email" required>
+
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                          <input  matInput placeholder="Phone number" required>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                             <input  matInput placeholder="Web site" required>   
+                        </mat-form-field>
+
+                </div>
+                <mat-accordion class="accor_1">
+                                <mat-expansion-panel>
+                                  <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                      knowledge of languages
+                                    </mat-panel-title>
+                                    <mat-panel-description>                  
+                                        select the languages ​​you speak most
+                                    </mat-panel-description>
+                                  </mat-expansion-panel-header>
+                                  <mat-form-field class="lan">
+                                                <mat-label>Language</mat-label>
+                                                <mat-select>
+                                                <mat-option >Usa</mat-option>
+                                                </mat-select>
+                                                
+                                               
+                                 </mat-form-field>
+                                 <mat-form-field class="con">
+                                        <mat-label> Conversational domain</mat-label>
+                                        <mat-select>
+                                        <mat-option value="A1" >A1</mat-option>
+                                        <mat-option value="A2">A2</mat-option>
+                                        <mat-option value="B1" >B1</mat-option>
+                                        <mat-option value="B2">B2</mat-option>
+                                        <mat-option value="C1">C1</mat-option>
+                                        <mat-option value="C2">C2</mat-option>
+                                        </mat-select>
+                                 </mat-form-field>
+                                 <a mat-raised-button   color="primary">Add</a>
+                                </mat-expansion-panel>
+                              
+                                 
+                </mat-accordion>
+
+
+
+
+                <a mat-raised-button  class="submitButton"  color="primary">Submit</a>
+                </form>
+                
+            </mat-card>
+        </mat-card>
+    </div>
+<footer>
+
+</footer>
+</div>

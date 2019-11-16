@@ -6,18 +6,20 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CompanyComponent } from './company/company.component';
 import { UserComponent } from './user/user.component';
-import {MatInputModule,MatCardModule,MatButtonModule} from '@angular/material';
+import {MatInputModule,MatIconModule,MatExpansionModule,MatSelectModule,MatCardModule,MatButtonModule,MatDividerModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     CompanyComponent,
-    UserComponent
+    UserComponent,
+    RegisterComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
+    BrowserModule,MatExpansionModule,MatIconModule,
+    AppRoutingModule,MatDividerModule,MatSelectModule,
     BrowserAnimationsModule,MatInputModule,MatCardModule,MatButtonModule
  
 ],
