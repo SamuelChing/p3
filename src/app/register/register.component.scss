@@ -8,7 +8,8 @@
 }
 
 .companyForm{
-    display: inline-block;
+    display: none;
+    //display: inline-block;
     width:98%;
     text-align: center;
     margin:1%;
@@ -68,7 +69,7 @@
 
 //User scss
 .userForm{
-    display: none;
+    display: block;
     text-align: center;
 }
 
@@ -83,6 +84,9 @@
     width:100%;
     .country{
         width:40%;
+    }
+    .date{
+        margin-left:1%;
     }
     .Address{
         font-weight: bold;
@@ -103,6 +107,13 @@
     .input{
         margin-right: 1%;
         width: 25%;
+    }
+    .image{
+        margin: 1%;
+        //width:100%;
+        .input{
+            width:50%; 
+        }
     }
 }
 .accor_1{
@@ -141,4 +152,65 @@
 }
 .firstCard{
     margin:0 5% 0 5%;
+}
+
+
+//Work experience
+.accor_2{
+    .experience{
+        text-align: center;
+        .input{
+            width: 35%;
+            margin-right: 1%;
+        }
+    }
+    .dateInWork{
+        text-align: center;
+        margin:1.1%;
+        .date{
+            margin-right: 1%;
+            width: 25%
+        }
+    }
+}
+.softwareTitle{
+    font-weight: bold;
+
+}
+.softwareCard{
+    box-shadow: -1px 0px 3px 0.9px #a0a0a0b8;
+    margin:1%;
+    
+
+}
+.software{
+    text-align: center;
+    .input{
+        margin-right: 1%;
+        width:35%;
+    }
+    .softwareType{
+        width:35%;
+        margin-right: 1%;
+    }
+    button{
+        margin:1%;
+    }
+}
+.certificacion,.studies{
+    .input{
+        margin-right:1%;
+        width:35%;
+    }
+    .date{
+        margin-right:1%;
+    }
+    
+}
+.descr{
+    width: 100%;
+    .textarea{
+        width: 100%;
+        margin: 1%;
+    }
 }
