@@ -1,19 +1,350 @@
 <div class="general">
     <div class="header">
         <mat-toolbar color="primary">
-            <a mat-raised-button color="primary" class="Options" >My job Contests</a>
-            <a mat-raised-button color="primary" class="Options">My information</a>
+            <a mat-raised-button color="primary" class="Options" (click)="goToContest()">My job Contests</a>
+            <a mat-raised-button color="primary" class="Options" (click)="goToMyInfo()">My information</a>
            
            
             <input autocomplete="off" matInput class="searchbar"  placeholder="Search for a worker" type="text" >
             
             <mat-icon class="icon" color="white" matSuffix >search</mat-icon>
-            <a mat-raised-button color="primary" class="Options logOff">Log out</a>
+            <a mat-raised-button color="primary" routerLink="/login" routerLinkActive="active" class="Options logOff">Log out</a>
         </mat-toolbar>
 
     </div>
-    <div class="container">
+    <div class="container1" id="container1">
+        <div class="addContest">
+                <mat-card>
+                    <mat-card-title> Manage your job contests in this section</mat-card-title>
+                    <mat-card-subtitle class="date1"> Registration date: {{pToday}}</mat-card-subtitle>
+                    <mat-form-field class="example-full-width input">
+                            <input [(ngModel)]="pJobName" name="pJobName" matInput placeholder="Job name" autocomplete="off">
+                            
+                    </mat-form-field>
+                   
+                    <mat-form-field class="date">
+                            <input [(ngModel)]="pDate" name="pDate" matInput [matDatepicker]="picker" placeholder="
+                            date of admission">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width textarea">
+                            <textarea [(ngModel)]="pDescription" name="pDescription" matInput placeholder="Description"></textarea>
+                    </mat-form-field>
+                    <mat-accordion class="accor_1">
+                            <mat-expansion-panel>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  knowledge of languages
+                                </mat-panel-title>
+                                <mat-panel-description>                  
+                                    select the languages your finding the worker to speak
+                                </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <mat-form-field class="lan">
+                                            <mat-label>Language</mat-label>
+                                            <mat-select [(ngModel)]="pLanguage" name="pLanguage">
+                                            <mat-option value ="usa">Usa</mat-option>
+                                            </mat-select>
+                                            
+                                           
+                             </mat-form-field>
+                             <mat-form-field class="con">
+                                    <mat-label> Conversational domain</mat-label>
+                                    <mat-select [(ngModel)]="pDomain" name="pDomain">
+                                    <mat-option value="A1" >A1</mat-option>
+                                    <mat-option value="A2">A2</mat-option>
+                                    <mat-option value="B1" >B1</mat-option>
+                                    <mat-option value="B2">B2</mat-option>
+                                    <mat-option value="C1">C1</mat-option>
+                                    <mat-option value="C2">C2</mat-option>
+                                    </mat-select>
+                             </mat-form-field>
+                             <a mat-raised-button (click)="addLanguage()"  color="primary">Add</a>
+                             <mat-table #table [dataSource]="dataSourceLanguage">
+
+                                            <!--- Note that these columns can be defined in any order.
+                                                  The actual rendered columns are set as a property on the row definition" -->
+                                        
+                                            <!-- ID Column -->
+                                            <ng-container matColumnDef="language">
+                                              <mat-header-cell *matHeaderCellDef > Language </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                            </ng-container>
+                                        
+                                            <!-- Progress Column -->
+                                            <ng-container matColumnDef="conversational domain">
+                                              <mat-header-cell *matHeaderCellDef > Conversational domain </mat-header-cell>
+                                              <mat-cell *matCellDef="let row"> {{row.domain}} </mat-cell>
+                                            </ng-container>
+                                            <ng-container matColumnDef="action">
+                                                    <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                                                    <mat-cell *matCellDef="let element;  let j = index;"> 
+                                                            <a mat-raised-button  color="warn" focusable="false" (click)="deleteLanguage(j)">
+                                                                            <i class="material-icons">
+                                                                                            delete
+                                                                                            </i> Remove
+                                                            </a> 
+                                                    </mat-cell>
+                                                    
+                                            </ng-container>
+                                           
+                                        
+                                            <mat-header-row *matHeaderRowDef="displayedColumnsLangue"></mat-header-row>
+                                            <mat-row  *matRowDef="let row; columns: displayedColumnsLangue;"></mat-row>
+                                          </mat-table>
+
+
+
+
+                            </mat-expansion-panel>
+                          
+                             
+                    </mat-accordion>
+                    <mat-accordion class="accor_3">
+                            <mat-expansion-panel>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                            certifications
+                                </mat-panel-title>
+                                <mat-panel-description>                  
+                                    Register the certifications your finding
+                                </mat-panel-description>
+                              </mat-expansion-panel-header>
+                             <div class="certificacion">
+                                    <mat-form-field class="example-full-width input">
+                                     <input  [(ngModel)]="pCertificado_Title" name="pCertificado_Title"  matInput placeholder="Title" >
+                                    
+                                    </mat-form-field> 
+                                    <mat-form-field class="example-full-width input">
+                                            <input  [(ngModel)]="pCertificado_name" name="pCertificado_name" matInput placeholder="University or institute name" >
+                                    </mat-form-field> 
+                                    <mat-form-field class="date">
+                                            <input matInput [(ngModel)]="pCertificado_year" name="pCertificado_year" [matDatepicker]="picker5" placeholder="Year of graduation">
+                                            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker5></mat-datepicker>
+                                    </mat-form-field>
+                                     
+                             </div>
+                             <a mat-raised-button (click)="addCertification()"   color="primary">Add</a>
+                             <mat-table #table [dataSource]="dataSourceCertification">
+    
+                                                    <!--- Note that these columns can be defined in any order.
+                                                          The actual rendered columns are set as a property on the row definition" -->
+                                                
+                                                    <!-- ID Column -->
+                                                    <ng-container matColumnDef="Title">
+                                                      <mat-header-cell *matHeaderCellDef > Title </mat-header-cell>
+                                                      <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+                                                    </ng-container>
+                                                
+                                                    <!-- Progress Column -->
+                                                    <ng-container matColumnDef="Name of place">
+                                                      <mat-header-cell *matHeaderCellDef > Name of place </mat-header-cell>
+                                                      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="Date of graduation">
+                                                                    <mat-header-cell *matHeaderCellDef > Date of graduation </mat-header-cell>
+                                                                    <mat-cell *matCellDef="let row"> {{row.year}} </mat-cell>
+                                                                  </ng-container>
+                                                    <ng-container matColumnDef="action">
+                                                            <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                                                            <mat-cell *matCellDef="let element;  let j = index;"> 
+                                                                    <a mat-raised-button  color="warn" focusable="false" (click)="deleteCertification(j)">
+                                                                                    <i class="material-icons">
+                                                                                                    delete
+                                                                                                    </i> Remove
+                                                                    </a> 
+                                                            </mat-cell>
+                                                            
+                                                    </ng-container>
+                                                   
+                                                
+                                                    <mat-header-row *matHeaderRowDef="displayedColumnsCertification"></mat-header-row>
+                                                    <mat-row  *matRowDef="let row; columns: displayedColumnsCertification;"></mat-row>
+                                                  </mat-table>
+                            </mat-expansion-panel>
+                          
+                             
+                    </mat-accordion>
+                    <mat-accordion class="accor_6">
+                            <mat-expansion-panel>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title> 
+                                    software domains
+                                </mat-panel-title>
+                                <mat-panel-description>                  
+                                    What software do you master? 
+                                </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <div class="software">
+                                    <mat-form-field class="example-full-width input">
+                                            <input [(ngModel)]="pSoftware" name="pSoftware" matInput autocomplete="off" placeholder="Software" >
+                                    </mat-form-field>  
+                                    <mat-form-field class="softwareType">
+                                                    <mat-label>Type of software</mat-label>
+                                            <mat-select [(ngModel)]="pSoftwareType" name="pSoftwareType" >
+                                                    <mat-option value="Programming language" >Programming language</mat-option>
+                                                    <mat-option value="Database">Database</mat-option>
+                                                    <mat-option value="Graphic design" >Graphic design</mat-option>
+                                                    <mat-option value="Interface designer">Interface design</mat-option>
+                                                    <mat-option value="QA">QA</mat-option>
+                                                    <mat-option value="Office automation">Office automation</mat-option>
+                                                    <mat-option value="CAD">CAD</mat-option>
+                                                    <mat-option value="Project management">Project management</mat-option>
+                                                    <mat-option value="ERP">ERP</mat-option>
+                                                    <mat-option value="CRM">CRM</mat-option>
+                                                    <mat-option value="SCM">SCM</mat-option>
+                                                    <mat-option value="Virtualization">Virtualization</mat-option>
+                                                    <mat-option value="Business Intelligence">Business Intelligence</mat-option>
+                                             </mat-select>
+                                    </mat-form-field>
+                                    
+                            </div>
+                             <a mat-raised-button (click)="addSoftware()"   color="primary">Add</a>
+                             <mat-table #table [dataSource]="dataSourceSoftware">
+            
+                                    <!--- Note that these columns can be defined in any order.
+                                          The actual rendered columns are set as a property on the row definition" -->
+                                
+                                    <!-- ID Column -->
+                                    <ng-container matColumnDef="Software">
+                                      <mat-header-cell *matHeaderCellDef > Software </mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                    </ng-container>
+                                
+                                    <!-- Progress Column -->
+                                    <ng-container matColumnDef="type">
+                                      <mat-header-cell *matHeaderCellDef > Type Of Software </mat-header-cell>
+                                      <mat-cell *matCellDef="let row"> {{row.type}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                            <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                                            <mat-cell *matCellDef="let element;  let j = index;"> 
+                                                    <a mat-raised-button  color="warn" focusable="false" (click)="deleteSoftware(j)">
+                                                                    <i class="material-icons">
+                                                                                    delete
+                                                                                    </i> Remove
+                                                    </a> 
+                                            </mat-cell>
+                                            
+                                    </ng-container>
+                                   
+                                
+                                    <mat-header-row *matHeaderRowDef="displayedColumnsSoftware"></mat-header-row>
+                                    <mat-row  *matRowDef="let row; columns: displayedColumnsSoftware;"></mat-row>
+                                  </mat-table>
+            
+            
+            
+            
+            
+            
+            
+            
+                            </mat-expansion-panel>
+                          
+                             
+                    </mat-accordion>
+                    <div class="boton">
+                    <a mat-raised-button color="primary" (click)="addContest()" class="submit"  >submit</a>
+                    </div>
+                </mat-card>
+
+                <mat-card class="cardResult" *ngFor="let result of results$">
+                                <mat-form-field class="example-full-width input">
+                                                <input  value="{{result.job}}" name="pJobName" placeholder="Job name" matInput  autocomplete="off">
+                                                
+                                </mat-form-field>
+                                 <mat-card-subtitle>Registration date: {{result.date1}}</mat-card-subtitle>
+                                 <mat-form-field class="example-full-width input">
+                                                <input  value="{{result.date2}}" placeholder="Date of Admission" matInput  autocomplete="off">
+                                                
+                                </mat-form-field>
+                                <mat-form-field class="example-full-width textarea">
+                                                <textarea value="{{result.description}}"  matInput placeholder="Description"></textarea>
+                                </mat-form-field>    
+
+                </mat-card>
+
+        </div>
+    </div>
+    <div class="container2" id="container2">
+        <div class="companyForm">
+                <mat-card>
+                        <mat-card-title> 
+                                Your Information
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                                manage your personal information in this section
+                        </mat-card-subtitle>
+                        <mat-card class="entry">
+                    <form>
+                                
+                        <div class="name">
+                        <mat-form-field class="example-full-width input nameinput">
+                            <input [(ngModel)]="companyName" name="companyName"  matInput autocomplete="off" placeholder="Name of the company" required>
+                        
+                        </mat-form-field> 
+                        </div>  
+                        <div class="addressInfo">
+                        <mat-card-subtitle>
+                                Address
+                        </mat-card-subtitle>
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" [(ngModel)]="companyProvince" name="companyProvince" matInput placeholder="Province" required>
         
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" matInput [(ngModel)]="companyCanton" name="companyCanton" placeholder="Canton" required>
+        
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" [(ngModel)]="companyDistrict" name="companyDistrict" matInput placeholder="District" required>
+        
+                        </mat-form-field>
+                        <mat-card-subtitle>
+                                Contact information
+                        </mat-card-subtitle>
+                        </div>
+                        
+                        <div class="mediaInfo">
+                        <mat-form-field class="example-full-width input">
+                                <input  autocomplete="off" [(ngModel)]="companyPhone" name="companyPhone" matInput placeholder="Phone number" required>
+        
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" [(ngModel)]="companyWebsite" name="companyWebsite"  matInput placeholder="Website" required>
+        
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" [(ngModel)]="companyContactName" name="companyContactName" matInput placeholder="Contact name" required>
+        
+                        </mat-form-field>
+                        </div>
+                        <div class="url">
+                        <mat-form-field class="example-full-width input">
+                                <input autocomplete="off" [(ngModel)]="companyUrl" name="companyUrl" matInput placeholder="Logo url" required>
+        
+                        </mat-form-field>
+                        </div>
+                        <div class="url">
+                                <mat-form-field class="example-full-width input">
+                                        <input autocomplete="off" [(ngModel)]="companyEmail" name="companyEmail" matInput placeholder="Email" required>
+                
+                                </mat-form-field>
+                                </div>
+                        <div class="divButton">
+                        <a mat-raised-button class="button"  color="primary">Submit</a>
+                        </div>
+
+                </form>
+            </mat-card>
+            </mat-card>
+        </div>
+    </div>
+    <div class="container3">
+
     </div>
    
     

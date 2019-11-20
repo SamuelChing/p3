@@ -10,8 +10,8 @@
                     <mat-card-subtitle>
                         First select the type of user you like to register
                     </mat-card-subtitle>
-                    <a (click)="goToCompany()" mat-raised-button>Company</a>
-                    <a (click)="goToPerson()" mat-raised-button>Person</a>
+                    <a (click)="goToCompany()" color="primary" mat-raised-button>Company</a>
+                    <a (click)="goToPerson()" color="primary" mat-raised-button>Person</a>
             </mat-card>
     </div>
     <div class="companyForm" id="companyForm" >
@@ -589,7 +589,9 @@
             </mat-card>
         </mat-card>
     </div>
-<footer>
-
-</footer>
+    <footer class="footer">
+                <mat-toolbar color="primary" class="toolbarfooter">
+                    <h1>Copyright © 2019 KANS Inc. All rights reserved</h1>
+                </mat-toolbar>
+    </footer>
 </div>
