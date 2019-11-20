@@ -90,7 +90,7 @@
                         </mat-form-field>
                         </div>
                 <div class="divButton">
-                <a mat-raised-button class="button"  color="primary">Submit</a>
+                <a mat-raised-button (click)="addNewUser(2)" class="button"  color="primary">Submit</a>
                 </div>
         </form>
     </mat-card>
@@ -583,7 +583,7 @@
                  
         </mat-accordion>
 
-                <a mat-raised-button  class="submitButton"  color="primary">Submit</a>
+                <a mat-raised-button (click)="addNewUser(1)"  class="submitButton"  color="primary">Submit</a>
                 </form>
                 
             </mat-card>

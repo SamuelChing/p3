@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import { Worker } from 'cluster';
+//import { Worker } from 'cluster';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  userPK:Number;
   //--------------------------------Company*----------------------------------//
   companyUser:string;
   companyPassword:string;
@@ -79,7 +80,7 @@ export class RegisterComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     this.dataSourceWork = new MatTableDataSource(this.work);
    }
-
+   private userInfoSetter;
   ngOnInit() {
   }
 
@@ -190,6 +191,289 @@ export class RegisterComponent implements OnInit {
     
   }
   //Funcionalidad del botón de persona
+  makePostLanguages(type,username,userID){
+    //this.getID(username,type);      
+    this.languages.forEach(function(element){
+      var language={
+        "person":userID,
+        "language":element.name,
+        "proficiency":element.domain
+      }
+      fetch("http://localhost:3000/newLanguage/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Language added correctly");            
+          }else{            
+            alert("Error adding this user languages");
+          }
+        });   
+    });
+  }
+  makePostSoftware(type,username,userID){
+    this.software.forEach(function(element){
+      var language={}    
+      language ={
+        "person":userID,
+        "softwareType":element.type,
+        "softwareName":element.name     
+      }
+      fetch("http://localhost:3000/newSoftware/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Software added correctly");            
+          }else{            
+            alert("Error adding this user softwares");
+          }
+        });   
+    });
+  }
+  makePostExperience(type,username,userID){
+    this.work.forEach(function(element){
+      var language={}    
+      language ={
+        "person":userID,
+        "company":element.company,
+        "role":element.job,
+        "admissionDate":element.date1,
+         "departureDate":element.date2,
+         "activeJob":element.active,
+         "description":element.description
+      }
+      fetch("http://localhost:3000/userExperience", {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Experience added correctly");            
+          }else{            
+            alert("Error adding this user Experience");
+          }
+        });   
+    });
+  }
+  makePostStudies(type,username,userID){
+    this.studies.forEach(function(element){
+      var studies={}    
+      studies ={
+        "person":userID,
+        "grade":element.grade,
+        "titleGiver":element.name,
+        "graduated":element.year     
+      }
+      fetch("http://localhost:3000/userStudies", {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(studies)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Studies added correctly");            
+          }else{            
+            alert("Error adding this user Studies");
+          }
+        });   
+    });
+  }
+  makePostCertifications(type,username,userID){
+    this.certificaciones.forEach(function(element){
+      var language={}    
+      language ={
+        "person":userID,
+        "title":element.title,
+        "certificationGiver":element.title,
+        "certificationYear":element.year     
+      }
+      fetch("http://localhost:3000/newCertification/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Certification added correctly");            
+          }else{            
+            alert("Error adding this user certifications");
+          }
+        });   
+    });
+  }
+
+  getID(username,type){
+    fetch("http://localhost:3000/users/"+type+"/"+username, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData[0].userid);
+        if(type==1){
+          this.makePostLanguages(type,username,jsonData[0].userid);
+          this.makePostSoftware(type,username,jsonData[0].userid);
+          this.makePostCertifications(type,username,jsonData[0].userid);
+          this.makePostExperience(type,username,jsonData[0].userid);
+          this.makePostStudies(type,username,jsonData[0].userid);
+          alert("User information added correctly");
+        }
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  makePost(type,userData,username){
+
+    fetch("http://localhost:3000/newUserData/:"+type, {
+        "method": "POST",
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      }).then((response)=> {
+        console.log(response);
+        if(response.status ==201){
+          if(type==1){
+            this.getID(username,type)
+            
+          }
+          else{
+            alert("User added correctly");
+          }
+        }else{
+          alert("Error adding this user data");
+        }
+      });     
+  }
+  addNewUser(type){
+    var user={}
+    if(type==2){
+    user = {
+      "username":this.companyUser,
+      "pass":this.companyPassword,
+      "userType":type
+    }
+    }else{
+      user = {
+        "username":this.user,
+        "pass":this.password,
+        "userType":type
+      }
+    }
+    if((type == 2 && this.companyUser && this.companyPassword && this.companyName && this.companyProvince && this.companyCanton && this.companyDistrict&& this.companyPhone && this.companyWebsite
+      && this.companyContactName && this.companyUrl && this.companyEmail)
+    ||(type == 1 && this.user && this.password && this.user && this.firstName && this.lastName && this.country && this.province && this.canton && this.district 
+      && this.email && this.phone && this.webSite && this.url && (this.languages) || this.languages.length)
+      && (this.software || this.software.length) && (this.certificaciones || this.certificaciones.length)
+      && (this.work || this.work.length)){
+    
+    fetch("http://localhost:3000/newSystemUser", {
+        "method": "POST",
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         },
+         body: JSON.stringify(user)
+      }).then((response)=>{
+        console.log(response);
+        if(response.status ==201){
+          //alert("User added correctly");
+          if(type==2){
+          this.addUserInfo(2,this.companyUser);
+          }
+          else{
+            this.addUserInfo(1,this.user);
+          }
+          
+        }else{
+          alert("This username already exists");
+        }
+      });
+    }else{
+      alert("Check your and fill all the information");
+    }
+  }
+  addUserInfo(type,username){
+    var userData;
+    if(type==2){
+      if(this.companyName && this.companyProvince && this.companyCanton && this.companyDistrict&& this.companyPhone && this.companyWebsite
+        && this.companyContactName && this.companyUrl && this.companyEmail){
+          userData = {        
+            "companyName":this.companyName,
+            "province":type,
+            "canton":this.companyCanton,
+            "district":this.companyDistrict,
+            "mail":this.companyEmail,
+            "phone":this.companyPhone,
+            "website":this.companyWebsite,
+            "logo":this.companyUrl,
+            "contactName":this.companyContactName,
+            "username":username
+          }
+          this.makePost(2,userData,username);
+        }else{
+          alert("Please fill the all the company information")
+        }
+      
+      
+    }else{
+      if(this.user && this.firstName && this.lastName && this.country && this.province && this.canton && this.district 
+        && this.email && this.phone && this.webSite && this.url){
+          
+        userData={
+          "userID":this.user,
+          "firstName":this.firstName,
+          "LastName":this.lastName,
+          "nationality":this.country,
+          "province":this.province,
+          "canton":this.canton,
+          "district":this.district,
+          "mail":this.email,
+          "phone":this.phone,
+          "website":this.webSite,
+          "picture":this.url,                
+          "username":username
+        }
+        
+        this.makePost(1,userData,username);
+      }else{
+        alert("Please fill the all the user information")
+      }
+    }    
+  }
+  
   goToPerson(){
     var companyDiv = (<HTMLElement>document.getElementById("companyForm")); 
     var personDiv = (<HTMLElement>document.getElementById("userForm"));
@@ -223,3 +507,4 @@ export interface Work{
   active:boolean;
   description:string;
 }
+ 
