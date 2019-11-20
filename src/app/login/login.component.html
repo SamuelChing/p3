@@ -7,14 +7,14 @@
                 <mat-card-title>Login</mat-card-title>
                 
                 <mat-form-field class="example-full-width input">
-                    <input  matInput placeholder="User" >
+                    <input  matInput [(ngModel)]="user" name="user" placeholder="User" >
 
                 </mat-form-field>
                 <mat-form-field class="example-full-width input">
-                    <input  matInput placeholder="Password" type="password" >
+                    <input  matInput [(ngModel)]="password" name="user" placeholder="Password" type="password" >
 
                 </mat-form-field>
-                <a mat-raised-button color="primary" routerLink="./register" >Sign In</a>
+                <a mat-raised-button color="primary" (click)="getUser()" >Sign In</a>
                 
                 <mat-card-subtitle class="sub">Do not have an account?</mat-card-subtitle>
                 <a mat-raised-button routerLink="/register" routerLinkActive="active">Create account</a>

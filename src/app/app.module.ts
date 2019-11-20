@@ -9,6 +9,7 @@ import { UserComponent } from './user/user.component';
 import {MatNativeDateModule,MatDatepickerModule,MatTableModule,MatInputModule,MatToolbarModule,MatSlideToggleModule,MatIconModule,MatExpansionModule,MatSelectModule,MatCardModule,MatButtonModule,MatDividerModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './register/register.component';
+
 @NgModule({
   declarations: [
     AppComponent,
