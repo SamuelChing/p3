@@ -20,6 +20,22 @@
     </div>
     <div class="container1" id="container1">
         <div class="addContest">
+                <div class="viewWork" id="viewWork">
+                        <mat-card>
+                                <a mat-raised-button color="warn" (click)="closeView()" class="backBoton">X</a>
+                                <mat-card-title>{{pJobName}}</mat-card-title>
+                                <mat-card-subtitle><h4>Date of registration</h4> <p>{{pToday}}</p></mat-card-subtitle>
+                                <mat-card-subtitle><h4>Date of admission</h4><p>{{pDate}}</p></mat-card-subtitle>
+                                
+                                <mat-card-content>
+                                  <h4>Description</h4>      
+                                 <p>
+                                       {{pDescription}}
+                                 </p>
+                                </mat-card-content>
+                        </mat-card>
+                </div>
+                <div class="addBody" id="addBody">
                 <mat-card>
                     <mat-card-title> Manage your job contests in this section</mat-card-title>
                     <mat-card-subtitle class="date1"> Registration date: {{pToday}}</mat-card-subtitle>
@@ -242,7 +258,7 @@
                                   </mat-table>
             
             
-            
+                             
             
             
             
@@ -256,22 +272,54 @@
                     <a mat-raised-button color="primary" (click)="addContest()" class="submit"  >submit</a>
                     </div>
                 </mat-card>
-
-                <mat-card class="cardResult" *ngFor="let result of results$">
-                                <mat-form-field class="example-full-width input">
-                                                <input  value="{{result.job}}" name="pJobName" placeholder="Job name" matInput  autocomplete="off">
-                                                
-                                </mat-form-field>
-                                 <mat-card-subtitle>Registration date: {{result.date1}}</mat-card-subtitle>
-                                 <mat-form-field class="example-full-width input">
-                                                <input  value="{{result.date2}}" placeholder="Date of Admission" matInput  autocomplete="off">
-                                                
-                                </mat-form-field>
-                                <mat-form-field class="example-full-width textarea">
-                                                <textarea value="{{result.description}}"  matInput placeholder="Description"></textarea>
-                                </mat-form-field>    
-
+                </div>
+                <mat-card>
+                        <mat-table #table [dataSource]="dataSourceContest">
+            
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+                            
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="Job">
+                                  <mat-header-cell *matHeaderCellDef > Job </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.job}} </mat-cell>
+                                </ng-container>
+                            
+                                <!-- Progress Column -->
+                                <ng-container matColumnDef="Date1">
+                                  <mat-header-cell *matHeaderCellDef > Date of registration </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.date1}} </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="Date2">
+                                        <mat-header-cell *matHeaderCellDef > Date of admission </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.date2}} </mat-cell>
+                                      </ng-container>
+                               
+                                <ng-container matColumnDef="Action">
+                                        <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                                        <mat-cell *matCellDef="let element;  let j = index;"> 
+                                                <a mat-raised-button  color="primary" focusable="false" (click)="selectContest(j)">
+                                                                View
+                                                </a> 
+                                        </mat-cell>
+                                        
+                                </ng-container>
+                                <ng-container matColumnDef="End">
+                                        <mat-header-cell *matHeaderCellDef > End Contest </mat-header-cell>
+                                        <mat-cell *matCellDef="let element;  let j = index;"> 
+                                                <a mat-raised-button  color="warn" focusable="false" (click)="deleteContest(j)">
+                                                                Finish
+                                                </a> 
+                                        </mat-cell>
+                                        
+                                </ng-container>
+                               
+                            
+                                <mat-header-row *matHeaderRowDef="displayColumnsContest"></mat-header-row>
+                                <mat-row  *matRowDef="let row; columns: displayColumnsContest;"></mat-row>
+                              </mat-table>
                 </mat-card>
+                
 
         </div>
     </div>

@@ -268,3 +268,15 @@
         margin:1%;
     }
 }
+.viewWork{
+    display: none;
+    margin-bottom: 1%;
+    text-align: right;
+    mat-card-title,mat-card-subtitle,mat-card-content{
+        margin:2%;
+        text-align: left;
+    }
+    a{
+       left:0%; 
+    }
+}

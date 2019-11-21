@@ -61,6 +61,12 @@ export class CompanyComponent implements OnInit {
   pDomain:string;
   displayedColumnsLangue = ["language", "conversational domain","action"];
   dataSourceLanguage: MatTableDataSource<Language>;
+
+  //
+  contests: Contest[]=[];
+  dataSourceContest: MatTableDataSource<Contest>;
+  displayColumnsContest = ["Job", "Date1","Date2","Action","End"];
+
   constructor(private route: ActivatedRoute) { 
 
   }
@@ -85,6 +91,16 @@ export class CompanyComponent implements OnInit {
     companyDiv.style.display="none";
     personDiv.style.display="block";
   }
+  closeView(){
+    this.pJobName=""
+    this.pToday=new Date();
+    this.pDescription= ""
+    this.pDate= new Date();
+    var companyDiv = (<HTMLElement>document.getElementById("viewWork")); 
+    var personDiv = (<HTMLElement>document.getElementById("addBody"));
+    companyDiv.style.display="none";
+    personDiv.style.display="block";
+  }
   fixDate(date:Date){
     var dateResult= (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
     return dateResult
@@ -93,7 +109,29 @@ export class CompanyComponent implements OnInit {
     this.results$.push({
       job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
     })
+    this.contests.push({
+      job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
+    })
+    this.dataSourceContest= new MatTableDataSource(this.contests);
   }
+  deleteContest(rowid:number){
+    if (rowid > -1) {
+      this.contests.splice(rowid, 1);
+      this.dataSourceContest = new MatTableDataSource(this.contests);
+     }
+  }
+  selectContest(rowid:number){
+    var companyDiv = (<HTMLElement>document.getElementById("viewWork")); 
+    var personDiv = (<HTMLElement>document.getElementById("addBody"));
+    companyDiv.style.display="block";
+    personDiv.style.display="none";
+    this.pJobName=this.contests[rowid].job;
+    this.pToday=new Date(this.contests[rowid].date1.toString());
+    this.pDescription= this.contests[rowid].description;
+    this.pDate= new Date(this.contests[rowid].date2);
+
+  }
+
   //Add a lan to lantable
   addLanguage(){
     
@@ -256,4 +294,8 @@ export interface Contest{
   date1:string;
   date2:string;
   description:string;
+  /*
+  language:Language;
+  certificaction:Certificacion;
+  software:Software;*/
 }
