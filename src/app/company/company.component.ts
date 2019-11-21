@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {ActivatedRoute} from '@angular/router'
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
   styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
-  
+  //User logged
+  userLogged:string
+  //
   //My info variables
   companyUser:string;
   companyPassword:string;
@@ -58,9 +61,12 @@ export class CompanyComponent implements OnInit {
   pDomain:string;
   displayedColumnsLangue = ["language", "conversational domain","action"];
   dataSourceLanguage: MatTableDataSource<Language>;
-  constructor() { }
+  constructor(private route: ActivatedRoute) { 
+
+  }
 
   ngOnInit() {
+    this.userLogged=this.route.snapshot.paramMap.get('id');
   }
   getDate(date:Date){
     var date1= (date.getFullYear())+"-"+(date.getMonth()+1)+"-"+(date.getDate());

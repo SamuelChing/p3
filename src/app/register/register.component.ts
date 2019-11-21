@@ -79,6 +79,7 @@ export class RegisterComponent implements OnInit {
     this.dataSourceLanguage= new MatTableDataSource(this.languages);
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     this.dataSourceWork = new MatTableDataSource(this.work);
+    this.dataSourceStudies= new MatTableDataSource(this.studies);
    }
    private userInfoSetter;
   ngOnInit() {

@@ -1,6 +1,12 @@
 <div class="general">
     <div class="header">
         <mat-toolbar color="primary">
+                        <a class="userLogged">
+                                        <i class="material-icons icon">
+                                                person
+                                                </i>
+                                        {{userLogged}}
+                                    </a>
             <a mat-raised-button color="primary" class="Options" (click)="goToContest()">My job Contests</a>
             <a mat-raised-button color="primary" class="Options" (click)="goToMyInfo()">My information</a>
            

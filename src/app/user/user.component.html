@@ -1,12 +1,19 @@
 <div class="general">
     <div class="header">
         <mat-toolbar color="primary">
+                        <a class="userLogged">
+                                        <i class="material-icons icon">
+                                                person
+                                                </i>
+                                        {{userLogged}}
+                                    </a>
+                                    
             <a mat-raised-button color="primary" class="Options" >Home</a>
             <a mat-raised-button color="primary" class="Options">My information</a>
-           
-           
-            
             <a mat-raised-button color="primary" routerLink="/login" routerLinkActive="active" class="Options logOff">Log out</a>
+           
+           
+           
         </mat-toolbar>
 
     </div>

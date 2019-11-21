@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import countriesJson from '../../assets/countries.json';
 import languagesJson from '../../assets/languages.json';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,15 +14,16 @@ export class LoginComponent implements OnInit {
   password:string;
   countries=[];
   
-  constructor() { }
-
+  constructor(private router: Router) { }
+  
   ngOnInit() {
   }
-  getUser(){    
+  getUser(){ 
+    //Si no son vacíos   
     if(this.user && this.password){
       
       
-      console.log(countriesJson);
+      //console.log(countriesJson);
       fetch("http://localhost:3000/users/"+this.user, {
           "method": "GET"        
         })
@@ -36,10 +38,15 @@ export class LoginComponent implements OnInit {
         })
         .then( (jsonData) =>{
           console.log(JSON.stringify(jsonData).length);
-          
+          //Diferente a vacío
           if(JSON.stringify(jsonData).length !=2){
-            if(this.password.endsWith(jsonData[0].pass) ){
-              alert("Cambio de ventana")
+            
+            if(this.password.localeCompare(jsonData[0].pass)==0 ){
+              if(jsonData[0].usertype==1){
+                this.router.navigate(["/user",this.user]);
+              }
+              else{this.router.navigate(["/company",this.user]);
+              }
             }else{
               alert("Invalid password");
             }
