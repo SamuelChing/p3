@@ -434,7 +434,7 @@ export class RegisterComponent implements OnInit {
         && this.companyContactName && this.companyUrl && this.companyEmail){
           userData = {        
             "companyName":this.companyName,
-            "province":this.province,
+            "province":this.companyProvince,
             "canton":this.companyCanton,
             "district":this.companyDistrict,
             "mail":this.companyEmail,

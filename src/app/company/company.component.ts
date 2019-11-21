@@ -113,6 +113,8 @@ export class CompanyComponent implements OnInit {
       job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
     })
     this.dataSourceContest= new MatTableDataSource(this.contests);
+    this.startNewPost();
+
   }
   deleteContest(rowid:number){
     if (rowid > -1) {
@@ -169,6 +171,162 @@ export class CompanyComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
   }
+
+  getLastPost(post){
+    console.log("Usuario:",this.userLogged)
+    fetch("http://localhost:3000/lastPost/"+post, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData[0].postid);
+        /*this.makePostLanguages(2,jsonData[0].postid);
+        this.makePostSoftware(2,jsonData[0].postid);
+        this.makePostCertifications(2,jsonData[0].postid);*/
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  newPostInfo(companyData){
+    console.log(companyData);
+    fetch("http://localhost:3000/companyPost", {
+        "method": "post",
+        headers : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+          },
+          body: JSON.stringify(companyData)
+      }).then(async (response)=> {
+        console.log(response);
+        if(response.status ==201){          
+          alert("User updated correctly"); 
+          this.getLastPost(companyData.company);
+          //this.makePostLanguages(2,companyData.company)
+        }else{
+          alert("Error adding this user data");
+        }
+      });   
+  }
+
+  makePostLanguages(type,userID){
+    //this.getID(username,type);      
+    this.languages.forEach(async function(element){
+      var language={
+        "post":userID,
+        "language":element.name,
+        "proficiency":element.domain
+      }
+      await fetch("http://localhost:3000/newLanguage/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          //console.log(response);
+          if(response.status ==201){            
+            console.log("Language added correctly");            
+          }else{            
+            alert("Error adding this user languages");
+          }
+        });   
+    });
+  }
+  makePostSoftware(type,userID){
+    this.software.forEach(function(element){
+      var language={}    
+      language ={
+        "post":userID,
+        "softwareType":element.type,
+        "softwareName":element.name     
+      }
+      fetch("http://localhost:3000/newSoftware/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Software added correctly");            
+          }else{            
+            alert("Error adding this user softwares");
+          }
+        });   
+    });
+  }
+  makePostCertifications(type,userID){
+    this.certificaciones.forEach(function(element){
+      var language={}    
+      language ={
+        "post":userID,
+        "title":element.title,
+        "certificationGiver":element.title,
+        "certificationYear":element.year     
+      }
+      fetch("http://localhost:3000/newCertification/:"+type, {
+          "method": "POST",
+          headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify(language)
+        }).then(function(response) {
+          console.log(response);
+          if(response.status ==201){            
+            console.log("Certification added correctly");            
+          }else{            
+            alert("Error adding this user certifications");
+          }
+        });   
+    });
+  }
+  startNewPost(){
+    console.log("Usuario:",this.userLogged)
+    fetch("http://localhost:3000/users/"+2+"/"+this.userLogged, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);
+        var post={
+          "company":jsonData[0].companyid,
+          "postDate":this.pToday,
+          "expirationDate":this.pDate,
+          "description":this.pDescription,
+          "isActive":0
+        }
+        this.newPostInfo(post)
+        /*this.getWorks(jsonData[0].userid);
+        this.getLanguages(jsonData[0].userid);
+        this.getSoftware(jsonData[0].userid);
+        this.getCertifications(jsonData[0].userid);
+        this.getStudies(jsonData[0].userid);*/
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   makePost(type,userData,username){
     console.log(userData);
     fetch("http://localhost:3000/newUserData/:"+type, {
@@ -216,7 +374,7 @@ export class CompanyComponent implements OnInit {
 
   //addCertification
   getData(){
-    fetch("http://localhost:3000/newUserData/2/"+'C2',{
+    fetch("http://localhost:3000/newUserData/2/"+this.userLogged,{
         "method": "GET"        
       })
       .then(response => {
