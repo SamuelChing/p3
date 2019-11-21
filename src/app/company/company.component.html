@@ -283,7 +283,7 @@
                                 
                         <div class="name">
                         <mat-form-field class="example-full-width input nameinput">
-                            <input [(ngModel)]="companyName" name="companyName"  matInput autocomplete="off" placeholder="Name of the company" required>
+                            <input [(ngModel)]="companyName" name="companyName" matInput autocomplete="off" placeholder="Name of the company" required>
                         
                         </mat-form-field> 
                         </div>  
@@ -335,7 +335,7 @@
                                 </mat-form-field>
                                 </div>
                         <div class="divButton">
-                        <a mat-raised-button class="button"  color="primary">Submit</a>
+                        <a mat-raised-button class="button"  (click)="addUserInfo(2,C2)" color="primary">Submit</a>
                         </div>
 
                 </form>

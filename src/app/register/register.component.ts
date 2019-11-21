@@ -370,7 +370,7 @@ export class RegisterComponent implements OnInit {
             
           }
           else{
-            alert("User added correctly");
+            alert("Company added correctly");
           }
         }else{
           alert("Error adding this user data");
@@ -378,6 +378,7 @@ export class RegisterComponent implements OnInit {
       });     
   }
   addNewUser(type){
+    console.log("in ",type)
     var user={}
     if(type==2){
     user = {
@@ -398,7 +399,7 @@ export class RegisterComponent implements OnInit {
       && this.email && this.phone && this.webSite && this.url && (this.languages) || this.languages.length)
       && (this.software || this.software.length) && (this.certificaciones || this.certificaciones.length)
       && (this.work || this.work.length)){
-    
+       
     fetch("http://localhost:3000/newSystemUser", {
         "method": "POST",
         headers : { 
@@ -432,7 +433,7 @@ export class RegisterComponent implements OnInit {
         && this.companyContactName && this.companyUrl && this.companyEmail){
           userData = {        
             "companyName":this.companyName,
-            "province":type,
+            "province":this.province,
             "canton":this.companyCanton,
             "district":this.companyDistrict,
             "mail":this.companyEmail,

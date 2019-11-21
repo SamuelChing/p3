@@ -71,6 +71,7 @@ export class CompanyComponent implements OnInit {
     var personDiv = (<HTMLElement>document.getElementById("container2"));
     companyDiv.style.display="none";
     personDiv.style.display="block";
+    this.getData();
   }
   goToContest(){
     var companyDiv = (<HTMLElement>document.getElementById("container2")); 
@@ -124,7 +125,84 @@ export class CompanyComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
   }
+  makePost(type,userData,username){
+    console.log(userData);
+    fetch("http://localhost:3000/newUserData/:"+type, {
+        "method": "PUT",
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      }).then((response)=> {
+        console.log(response);
+        if(response.status ==201){
+          
+          alert("Company added correctly");
+          
+        }else{
+          alert("Error adding this user data");
+        }
+      });     
+  }
+  addUserInfo(type,username){
+    var userData;
+    username="C2";
+    if(this.companyName && this.companyProvince && this.companyCanton && this.companyDistrict&& this.companyPhone && this.companyWebsite
+      && this.companyContactName && this.companyUrl && this.companyEmail){
+        userData = {        
+          "companyName":this.companyName,
+          "province":this.companyProvince,
+          "canton":this.companyCanton,
+          "district":this.companyDistrict,
+          "mail":this.companyEmail,
+          "phone":this.companyPhone,
+          "website":this.companyWebsite,
+          "logo":this.companyUrl,
+          "contactName":this.companyContactName,
+          "username":username
+        }
+        console.log(userData);
+        this.makePost(2,userData,username);
+      }else{
+        alert("Please fill the all the general company information")
+      }  
+    
+  }
+
   //addCertification
+  getData(){
+    fetch("http://localhost:3000/newUserData/2/"+'C2',{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        
+        var company = jsonData[0]
+        console.log(company);                
+        this.companyName = company.companyname;
+        this.companyProvince = company.province;
+        this.companyCanton = company.canton;
+        this.companyDistrict = company.district;
+        this.companyPhone = company.phone;
+        this.companyWebsite = company.website;
+        this.companyContactName = company.contactname;
+        this.companyUrl = company.logo;
+        this.companyEmail = company.mail;
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   addCertification(){
     
