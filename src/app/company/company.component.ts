@@ -45,7 +45,7 @@ export class CompanyComponent implements OnInit {
   certificaciones:Certificacion[]=[];
   pCertificado_Title: string;
   pCertificado_name:string;
-  pCertificationFlag:boolean;
+  pCertificationFlag:boolean=false;
 
   pCertificado_year=new Date();
   displayedColumnsCertification = ["Title","action"];
@@ -56,7 +56,7 @@ export class CompanyComponent implements OnInit {
     dataSourceSoftware: MatTableDataSource<Software>;
     pSoftwareType:string;
     pSoftware:string;
-    pSoftwareFlag:boolean;
+    pSoftwareFlag:boolean =  false;
     software: Software[]=[];
     //Languages
     languages: Language[]=[];
@@ -76,6 +76,7 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     this.userLogged=this.route.snapshot.paramMap.get('id');
+    this.startLoadPosts();
   }
   getDate(date:Date){
     var date1= (date.getFullYear())+"-"+(date.getMonth()+1)+"-"+(date.getDate());
@@ -177,7 +178,7 @@ export class CompanyComponent implements OnInit {
   }
 
   getLastPost(post){
-    console.log("Usuario:",this.userLogged)
+    console.log("Entra a get last post:",this.userLogged)
     fetch("http://localhost:3000/lastPost/"+post, {
         "method": "GET"        
       })
@@ -191,9 +192,10 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData[0].postid);
-        /*this.makePostLanguages(2,jsonData[0].postid);
+        this.makePostLanguages(2,jsonData[0].postid);
         this.makePostSoftware(2,jsonData[0].postid);
-        this.makePostCertifications(2,jsonData[0].postid);*/
+        this.makePostCertifications(2,jsonData[0].postid);
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);
@@ -214,7 +216,6 @@ export class CompanyComponent implements OnInit {
         if(response.status ==201){          
           alert("User updated correctly"); 
           this.getLastPost(companyData.company);
-          //this.makePostLanguages(2,companyData.company)
         }else{
           alert("Error adding this user data");
         }
@@ -248,19 +249,21 @@ export class CompanyComponent implements OnInit {
   }
   makePostSoftware(type,userID){
     this.software.forEach(function(element){
-      var language={}    
-      language ={
+      var software={}    
+      software ={
         "post":userID,
         "softwareType":element.type,
-        "softwareName":element.name     
+        "softwareName":element.name,
+        "needRate":element.required    
       }
+      console.log(software);
       fetch("http://localhost:3000/newSoftware/:"+type, {
           "method": "POST",
-          headers : { 
+          headers : {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
             },
-            body: JSON.stringify(language)
+            body: JSON.stringify(software)
         }).then(function(response) {
           console.log(response);
           if(response.status ==201){            
@@ -270,15 +273,15 @@ export class CompanyComponent implements OnInit {
           }
         });   
     });
-  }/*
+  }
   makePostCertifications(type,userID){
+    console.log(this.certificaciones)
     this.certificaciones.forEach(function(element){
-      var language={}    
-      language ={
+      var certification={}    
+      certification ={
         "post":userID,
-        "title":element.title,
-        "certificationGiver":element.title,
-        "certificationYear":element.year     
+        "certificationName":element.title,
+        "needRate":element.required 
       }
       fetch("http://localhost:3000/newCertification/:"+type, {
           "method": "POST",
@@ -286,7 +289,7 @@ export class CompanyComponent implements OnInit {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
             },
-            body: JSON.stringify(language)
+            body: JSON.stringify(certification)
         }).then(function(response) {
           console.log(response);
           if(response.status ==201){            
@@ -297,7 +300,110 @@ export class CompanyComponent implements OnInit {
         });   
     });
   }
-  */
+  
+  startLoadPosts(){
+    fetch("http://localhost:3000/users/"+2+"/"+this.userLogged, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        this.startLoadPost_aux(jsonData[0].companyid)        
+      })
+      .catch(err => {
+        console.log(err);
+      })    
+  }
+
+  getPostSoftwares(postid){
+    fetch("http://localhost:3000/postSoftwares/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getPostCertifications(postid){
+    fetch("http://localhost:3000/postCertifications/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getPostLanguages(postid){
+    fetch("http://localhost:3000/postLanguages/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  startLoadPost_aux(company){
+    fetch("http://localhost:3000/companyPost/"+company, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);        
+        jsonData.forEach(element => {          
+          this.getPostSoftwares(element.postid);
+          this.getPostCertifications(element.postid);
+          this.getPostLanguages(element.postid);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   startNewPost(){
     console.log("Usuario:",this.userLogged)
     fetch("http://localhost:3000/users/"+2+"/"+this.userLogged, {
@@ -413,7 +519,7 @@ export class CompanyComponent implements OnInit {
 
   addCertification(){
     
-    this.certificaciones.push({title:this.pCertificado_Title,required:this.pSoftwareFlag});
+    this.certificaciones.push({title:this.pCertificado_Title,required:this.pCertificationFlag});
     this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
     
     }
