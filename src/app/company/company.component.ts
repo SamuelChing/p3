@@ -125,6 +125,7 @@ export class CompanyComponent implements OnInit {
     ,language:this.languages,certificaction:this.certificaciones,software:this.software})
     */
    this.contests.push({
+      postID:1,
       job:this.pJobName,
       date1:this.pToday.toDateString(),
       date2:this.pDate.toDateString(),
@@ -138,8 +139,11 @@ export class CompanyComponent implements OnInit {
   }
   deleteContest(rowid:number){
     if (rowid > -1) {
+      //console.log(this.contests[rowid].postID)
+      this.finishPost(this.contests[rowid].postID);
+/*
       this.contests.splice(rowid, 1);
-      this.dataSourceContest = new MatTableDataSource(this.contests);
+      this.dataSourceContest = new MatTableDataSource(this.contests);*/
      }
   }
   selectContest(rowid:number){
@@ -435,7 +439,8 @@ export class CompanyComponent implements OnInit {
         var count=0;
         jsonData.forEach(element=>{
           this.contests.push({
-            job:"element.pJobName",
+            postID:element.postid,
+            job:element.jobname,
             date1:element.postdate,
             date2:element.expirationdate,
             description:element.description,
@@ -480,6 +485,7 @@ export class CompanyComponent implements OnInit {
         console.log(jsonData);
         var post={
           "company":jsonData[0].companyid,
+          "jobName":this.pJobName,
           "postDate":this.pToday,
           "expirationDate":this.pDate,
           "description":this.pDescription,
@@ -495,6 +501,27 @@ export class CompanyComponent implements OnInit {
       .catch(err => {
         console.log(err);
       })
+  }
+
+  finishPost(post){
+    //console.log(userData);
+    console.log(post)
+    fetch("http://localhost:3000/companyPost/"+post, {
+        "method": "PUT",
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+          }
+      }).then((response)=> {
+        console.log(response);
+        if(response.status ==201){
+          
+          alert("Company added correctly");
+          
+        }else{
+          alert("Error adding this user data");
+        }
+      });     
   }
 
   makePost(type,userData,username){
@@ -622,7 +649,7 @@ export interface Contest{
   date1:string;
   date2:string;
   description:string;
-  
+  postID:Number;
   language:Language[];
   certificaction:Certificacion[];
   software:Software[];
