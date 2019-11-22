@@ -138,14 +138,10 @@
                                      <input  [(ngModel)]="pCertificado_Title" name="pCertificado_Title"  matInput placeholder="Title" >
                                     
                                     </mat-form-field> 
-                                    <mat-form-field class="example-full-width input">
-                                            <input  [(ngModel)]="pCertificado_name" name="pCertificado_name" matInput placeholder="University or institute name" >
-                                    </mat-form-field> 
-                                    <mat-form-field class="date">
-                                            <input matInput [(ngModel)]="pCertificado_year" name="pCertificado_year" [matDatepicker]="picker5" placeholder="Year of graduation">
-                                            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker5></mat-datepicker>
-                                    </mat-form-field>
+                                   
+                                    <mat-slide-toggle [(ngModel)]="pCertificationFlag" name="pCertificationFlag">Required?
+                                        
+                                    </mat-slide-toggle>
                                      
                              </div>
                              <a mat-raised-button (click)="addCertification()"   color="primary">Add</a>
@@ -161,14 +157,7 @@
                                                     </ng-container>
                                                 
                                                     <!-- Progress Column -->
-                                                    <ng-container matColumnDef="Name of place">
-                                                      <mat-header-cell *matHeaderCellDef > Name of place </mat-header-cell>
-                                                      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-                                                    </ng-container>
-                                                    <ng-container matColumnDef="Date of graduation">
-                                                                    <mat-header-cell *matHeaderCellDef > Date of graduation </mat-header-cell>
-                                                                    <mat-cell *matCellDef="let row"> {{row.year}} </mat-cell>
-                                                                  </ng-container>
+                                                   
                                                     <ng-container matColumnDef="action">
                                                             <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
                                                             <mat-cell *matCellDef="let element;  let j = index;"> 
@@ -221,6 +210,9 @@
                                                     <mat-option value="Business Intelligence">Business Intelligence</mat-option>
                                              </mat-select>
                                     </mat-form-field>
+                                    <mat-slide-toggle [(ngModel)]="pSoftwareFlag" name="pSoftwareFlag">Required?
+                                        
+                                     </mat-slide-toggle>
                                     
                             </div>
                              <a mat-raised-button (click)="addSoftware()"   color="primary">Add</a>

@@ -45,8 +45,10 @@ export class CompanyComponent implements OnInit {
   certificaciones:Certificacion[]=[];
   pCertificado_Title: string;
   pCertificado_name:string;
+  pCertificationFlag:boolean;
+
   pCertificado_year=new Date();
-  displayedColumnsCertification = ["Title", "Name of place","Date of graduation","action"];
+  displayedColumnsCertification = ["Title","action"];
   dataSourceCertification: MatTableDataSource<Certificacion>;
 
     //Columnas de Software
@@ -54,6 +56,7 @@ export class CompanyComponent implements OnInit {
     dataSourceSoftware: MatTableDataSource<Software>;
     pSoftwareType:string;
     pSoftware:string;
+    pSoftwareFlag:boolean;
     software: Software[]=[];
     //Languages
     languages: Language[]=[];
@@ -150,10 +153,11 @@ export class CompanyComponent implements OnInit {
     
   }
   //Creates Json of Software 
-  createSoftware(pName:string, pType:string){
+  createSoftware(pName:string, pType:string,pFlag:boolean){
     return{
       name:pName,
-      type:pType
+      type:pType,
+      required:pFlag,
     }
   }
   //Deletes a Software from table
@@ -167,7 +171,7 @@ export class CompanyComponent implements OnInit {
   //Adds a software to software table
   addSoftware(){
     
-    this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType));
+    this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType,this.pSoftwareFlag));
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
   }
@@ -266,7 +270,7 @@ export class CompanyComponent implements OnInit {
           }
         });   
     });
-  }
+  }/*
   makePostCertifications(type,userID){
     this.certificaciones.forEach(function(element){
       var language={}    
@@ -293,6 +297,7 @@ export class CompanyComponent implements OnInit {
         });   
     });
   }
+  */
   startNewPost(){
     console.log("Usuario:",this.userLogged)
     fetch("http://localhost:3000/users/"+2+"/"+this.userLogged, {
@@ -408,7 +413,7 @@ export class CompanyComponent implements OnInit {
 
   addCertification(){
     
-    this.certificaciones.push({title:this.pCertificado_Title,name:this.pCertificado_name,year:this.fixDate(this.pCertificado_year)});
+    this.certificaciones.push({title:this.pCertificado_Title,required:this.pSoftwareFlag});
     this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
     
     }
@@ -424,6 +429,7 @@ export class CompanyComponent implements OnInit {
 export interface Software{
   name: string;
   type: string;
+  required:boolean;
 }
 export interface Language{
   name: string;
@@ -431,8 +437,7 @@ export interface Language{
 }
 export interface Certificacion{
   title: string;
-  name: string;
-  year: string;
+  required:boolean;
 }
 export interface Study{
   grade: string;
