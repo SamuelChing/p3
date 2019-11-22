@@ -1,12 +1,18 @@
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-//import { Worker } from 'cluster';
+import countriesJson from '../../assets/countries.json';
+import languagesJson from '../../assets/languages.json';
+import { element } from 'protractor';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  //---Json
+  languages1$:any[];
+  countries$:any[];
   userPK:Number;
   //--------------------------------Company*----------------------------------//
   companyUser:string;
@@ -74,12 +80,22 @@ export class RegisterComponent implements OnInit {
   pWorkisChecked:boolean=false;
   displayedColumnsWork = ["Company", "Job","date of admission","departure date","Active","action"];
   dataSourceWork: MatTableDataSource<Work>;
-  constructor() {
+  constructor( private router: Router) {
     this.dataSourceCertification= new MatTableDataSource(this.certificaciones);
     this.dataSourceLanguage= new MatTableDataSource(this.languages);
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     this.dataSourceWork = new MatTableDataSource(this.work);
     this.dataSourceStudies= new MatTableDataSource(this.studies);
+    this.languages1$=new Array();
+    this.countries$=new Array();
+    countriesJson.forEach(element=>{
+      this.countries$.push({name:element.name});
+    });
+    languagesJson.forEach(element=>{
+      this.languages1$.push({name:element.name});
+    });
+    
+    
    }
    private userInfoSetter;
   ngOnInit() {
@@ -88,6 +104,9 @@ export class RegisterComponent implements OnInit {
   fixDate(date:Date){
     var dateResult= (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
     return dateResult
+  }
+  goBack(){
+    this.router.navigate(["/login"]);
   }
   //add a work in table
   addWork(){

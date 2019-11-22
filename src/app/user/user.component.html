@@ -8,8 +8,8 @@
                                         {{userLogged}}
                                     </a>
                                     
-            <a mat-raised-button color="primary" class="Options" >Home</a>
-            <a mat-raised-button color="primary" class="Options">My information</a>
+            <a mat-raised-button color="primary" (click)="changeToEdit()" class="Options" >Home</a>
+            <a mat-raised-button color="primary" (click)="changeToHome()" class="Options">My information</a>
             <a mat-raised-button color="primary" routerLink="/login" routerLinkActive="active" class="Options logOff">Log out</a>
            
            
@@ -17,7 +17,10 @@
         </mat-toolbar>
 
     </div>
-    <div class="home">
+    <div class="viewContest" id="viewContest">
+
+    </div>
+    <div class="home" id="home">
         <div class="editGeneral">
                 <mat-card >
                     <mat-card-title>Edit your information in this section</mat-card-title>
@@ -33,7 +36,7 @@
                                 <mat-form-field class="country">
                                 <mat-label>nationality </mat-label>
                                 <mat-select [(ngModel)]="country" name="country" required>
-                                <mat-option value="usa" >Usa</mat-option>
+                                <mat-option value="{{res.name}}" *ngFor="let res of countries$" >{{res.name}}</mat-option>
                                 </mat-select>
                                 </mat-form-field>
                                 <mat-form-field class="date">
@@ -93,7 +96,7 @@
                                   <mat-form-field class="lan">
                                                 <mat-label>Language</mat-label>
                                                 <mat-select [(ngModel)]="pLanguage" name="pLanguage">
-                                                <mat-option value ="usa">Usa</mat-option>
+                                                <mat-option *ngFor="let res of languages1$" value ="{{res.name}}">{{res.name}}</mat-option>
                                                 </mat-select>
                                                 
                                                

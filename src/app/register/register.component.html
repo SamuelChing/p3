@@ -4,6 +4,7 @@
     </div>
     <div class="instr">
             <mat-card class="cardInstr">
+                    <a (click)="goBack()" color="primary"  class="goBack" mat-stroked-button>back to login</a>
                     <mat-card-title> 
                         Register an account
                     </mat-card-title>
@@ -136,7 +137,7 @@
                         <mat-form-field class="country">
                         <mat-label>nationality </mat-label>
                         <mat-select [(ngModel)]="country" name="country" required>
-                        <mat-option value="usa" >Usa</mat-option>
+                        <mat-option value="{{country.name}}" *ngFor="let country of countries$" >{{country.name}}</mat-option>
                         </mat-select>
                         </mat-form-field>
                         <mat-form-field class="date">
@@ -193,10 +194,10 @@
                                         select the languages ​​you speak most
                                     </mat-panel-description>
                                   </mat-expansion-panel-header>
-                                  <mat-form-field class="lan">
+                                  <mat-form-field class="lan" >
                                                 <mat-label>Language</mat-label>
-                                                <mat-select [(ngModel)]="pLanguage" name="pLanguage">
-                                                <mat-option value ="usa">Usa</mat-option>
+                                                <mat-select [(ngModel)]="pLanguage" name="pLanguage" >
+                                                <mat-option value="{{lan.name}}" *ngFor="let lan of languages1$">{{lan.name}}</mat-option>
                                                 </mat-select>
                                                 
                                                

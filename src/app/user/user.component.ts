@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ActivatedRoute} from '@angular/router'
+import countriesJson from '../../assets/countries.json';
+import languagesJson from '../../assets/languages.json';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  languages1$:any[];
+  countries$:any[];
   //USER IN -----------*Important
   userLogged:string;
   //
@@ -68,13 +72,36 @@ export class UserComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     this.dataSourceWork = new MatTableDataSource(this.work);
     this.dataSourceStudies= new MatTableDataSource(this.studies);
-
+    this.languages1$=new Array();
+    this.countries$=new Array();
+    countriesJson.forEach(element=>{
+      this.countries$.push({name:element.name});
+    });
+    languagesJson.forEach(element=>{
+      this.languages1$.push({name:element.name});
+    });
    }
 
   ngOnInit() {
      this.userLogged=this.route.snapshot.paramMap.get('id');
      this.getData();
   }
+  changeToEdit(){
+    var companyDiv = (<HTMLElement>document.getElementById("viewContest")); 
+    var personDiv = (<HTMLElement>document.getElementById("home"));
+    
+    personDiv.style.display="none";
+    companyDiv.style.display="block";
+  }
+
+  changeToHome(){
+    var companyDiv = (<HTMLElement>document.getElementById("home")); 
+    var personDiv = (<HTMLElement>document.getElementById("viewContest"));
+    
+    personDiv.style.display="none";
+    companyDiv.style.display="block";
+  }
+
   fixDate(date:Date){
     var dateResult= (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
     return dateResult
