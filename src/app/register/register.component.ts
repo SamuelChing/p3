@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit {
     languagesJson.forEach(element=>{
       this.languages1$.push({name:element.name});
     });
-    
+    //posts de companies
     
    }
    private userInfoSetter;
@@ -478,6 +478,7 @@ export class RegisterComponent implements OnInit {
           "firstName":this.firstName,
           "LastName":this.lastName,
           "nationality":this.country,
+          "birthday":this.birthday,
           "province":this.province,
           "canton":this.canton,
           "district":this.district,

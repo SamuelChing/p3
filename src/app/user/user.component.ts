@@ -64,7 +64,8 @@ export class UserComponent implements OnInit {
   pWorkisChecked:boolean=false;
   displayedColumnsWork = ["Company", "Job","date of admission","departure date","Active","action"];
   dataSourceWork: MatTableDataSource<Work>;
-  
+  //Companies contests
+  contests: Contest[]=[];
   
   constructor(private route: ActivatedRoute) {
     this.dataSourceCertification= new MatTableDataSource(this.certificaciones);
@@ -92,6 +93,9 @@ export class UserComponent implements OnInit {
     
     personDiv.style.display="none";
     companyDiv.style.display="block";
+    console.log("Entering posts");
+    this.startLoadPosts();
+
   }
 
   changeToHome(){
@@ -198,6 +202,127 @@ export class UserComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
   }
+  getPostSoftwares(postid,counter){
+    fetch("http://localhost:3000/postSoftwares/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+         console.log(jsonData);
+         jsonData.forEach(element => {
+          this.contests[counter].cSoftware.push({name:element.softwarename,type:element.softwaretype,required:element.needrate})
+          //this.dataSourceSoftware1= new MatTableDataSource(this.contests[counter].software);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getPostCertifications(postid,count){
+    fetch("http://localhost:3000/postCertifications/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);
+        jsonData.forEach(element => {
+          this.contests[count].cCertificaction.push(
+            {
+              title:element.certificationname,
+              required:element.needrate
+            }
+          );
+          
+          //this.dataSourceCertification1= new MatTableDataSource(this.contests[count].certificaction);
+        });        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getPostLanguages(postid,count){
+    fetch("http://localhost:3000/postLanguages/"+postid, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        //Here goes the code 
+        console.log(jsonData);    
+        jsonData.forEach(element => {
+          this.contests[count].language.push(
+            {
+              name: element.languagename,
+              domain: element.proficiency
+            }
+          );
+          //_this.dataSourceLanguage1= new MatTableDataSource(this.contests[count].language);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  startLoadPosts(){
+    fetch("http://localhost:3000/companyPost", {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData); 
+        var count=0;
+        jsonData.forEach(element=>{
+          this.contests.push({
+            postID:element.postid,
+            job:element.jobname,
+            date1:element.postdate,
+            date2:element.expirationdate,
+            description:element.description,
+            language:[],
+            cCertificaction:[],
+            cSoftware:[]
+            })
+          this.getPostSoftwares(element.postid,count);
+          this.getPostLanguages(element.postid,count);
+          this.getPostCertifications(element.postid,count);
+          count++;
+        }       
+        );
+        
+        //this.dataSourceContest=new MatTableDataSource(this.contests);  
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   getWorks(userPK){   
     //console.log("Entra a works") 
     fetch("http://localhost:3000/userExperience/"+userPK,{
@@ -584,7 +709,7 @@ export class UserComponent implements OnInit {
   
 
   getData(){
-    fetch("http://localhost:3000/newUserData/1/"+'Akuseru',{
+    fetch("http://localhost:3000/newUserData/1/"+this.userLogged,{
         "method": "GET"        
       })
       .then(response => {
@@ -672,6 +797,7 @@ export class UserComponent implements OnInit {
           "firstName":this.firstName,
           "LastName":this.lastName,
           "nationality":this.country,
+          "birthday":this.birthday,
           "province":this.province,
           "canton":this.canton,
           "district":this.district,
@@ -713,6 +839,11 @@ export interface Software{
   name: string;
   type: string;
 }
+export interface cSoftware{
+  name: string;
+  type: string;
+  required:boolean;
+}
 export interface Language{
   name: string;
   domain: string;
@@ -721,6 +852,10 @@ export interface Certificacion{
   title: string;
   name: string;
   year: string;
+}
+export interface cCertificacion{
+  title: string;  
+  required:boolean;
 }
 export interface Study{
   grade: string;
@@ -734,4 +869,14 @@ export interface Work{
   date2:string;
   active:boolean;
   description:string;
+}
+export interface Contest{
+  job:string;
+  date1:string;
+  date2:string;
+  description:string;
+  postID:Number;
+  language:Language[];
+  cCertificaction:cCertificacion[];
+  cSoftware:cSoftware[];
 }
