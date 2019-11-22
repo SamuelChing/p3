@@ -33,6 +33,92 @@
                                        {{pDescription}}
                                  </p>
                                 </mat-card-content>
+                                <div class="divTables">
+                                <mat-card-title class="tableInfo">
+                                        Certifications
+                                </mat-card-title>
+                                <mat-card-subtitle class="tableDescription">
+                                        This are the certifications you needed for this job
+                                </mat-card-subtitle>
+                                <mat-table class="table" #table [dataSource]="dataSourceCertification1">
+    
+                                        <!--- Note that these columns can be defined in any order.
+                                              The actual rendered columns are set as a property on the row definition" -->
+                                    
+                                        <!-- ID Column -->
+                                        <ng-container matColumnDef="Title">
+                                          <mat-header-cell *matHeaderCellDef > Title </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+                                        </ng-container>
+                                    
+                                        <!-- Progress Column -->
+                                       
+                                      
+                                       
+                                    
+                                        <mat-header-row *matHeaderRowDef="displayedColumnsCertification1"></mat-header-row>
+                                        <mat-row  *matRowDef="let row; columns: displayedColumnsCertification1;"></mat-row>
+                                </mat-table>
+                               
+
+                              
+                                <mat-card-title class="tableInfo">
+                                        Languages
+                                </mat-card-title>
+                                <mat-card-subtitle class="tableDescription">
+                                        This are the languages you needed to dominate for this job
+                                </mat-card-subtitle>
+                                <mat-table class="table" #table [dataSource]="dataSourceLanguage1">
+
+                                        <!--- Note that these columns can be defined in any order.
+                                              The actual rendered columns are set as a property on the row definition" -->
+                                    
+                                        <!-- ID Column -->
+                                        <ng-container matColumnDef="language">
+                                          <mat-header-cell *matHeaderCellDef > Language </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                        </ng-container>
+                                    
+                                        <!-- Progress Column -->
+                                        <ng-container matColumnDef="conversational domain">
+                                          <mat-header-cell *matHeaderCellDef > Conversational domain </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"> {{row.domain}} </mat-cell>
+                                        </ng-container>
+                                        
+                                       
+                                    
+                                        <mat-header-row *matHeaderRowDef="displayedColumnsLanguage1"></mat-header-row>
+                                        <mat-row  *matRowDef="let row; columns: displayedColumnsLanguage1;"></mat-row>
+                                </mat-table>
+                                <mat-card-title class="tableInfo">
+                                        Softwares
+                                </mat-card-title>
+                                <mat-card-subtitle class="tableDescription">
+                                        This are the softwares you know need to dominate for this job
+                                </mat-card-subtitle>
+                                <mat-table class="table" #table [dataSource]="dataSourceSoftware1">
+            
+                                        <!--- Note that these columns can be defined in any order.
+                                              The actual rendered columns are set as a property on the row definition" -->
+                                    
+                                        <!-- ID Column -->
+                                        <ng-container matColumnDef="Software">
+                                          <mat-header-cell *matHeaderCellDef > Software </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                        </ng-container>
+                                    
+                                        <!-- Progress Column -->
+                                        <ng-container matColumnDef="type">
+                                          <mat-header-cell *matHeaderCellDef > Type Of Software </mat-header-cell>
+                                          <mat-cell *matCellDef="let row"> {{row.type}} </mat-cell>
+                                        </ng-container>
+                                        
+                                       
+                                    
+                                        <mat-header-row *matHeaderRowDef="displayedColumnsSoftware1"></mat-header-row>
+                                        <mat-row  *matRowDef="let row; columns: displayedColumnsSoftware1;"></mat-row>
+                                </mat-table>
+                                </div>
                         </mat-card>
                 </div>
                 <div class="addBody" id="addBody">
@@ -114,7 +200,7 @@
                                         
                                             <mat-header-row *matHeaderRowDef="displayedColumnsLangue"></mat-header-row>
                                             <mat-row  *matRowDef="let row; columns: displayedColumnsLangue;"></mat-row>
-                                          </mat-table>
+                                </mat-table>
 
 
 
@@ -210,7 +296,7 @@
                                                     <mat-option value="Business Intelligence">Business Intelligence</mat-option>
                                              </mat-select>
                                     </mat-form-field>
-                                    <mat-slide-toggle [(ngModel)]="pSoftwareFlag" name="pSoftwareFlag">Required?
+                                    <mat-slide-toggle color="primary" [(ngModel)]="pSoftwareFlag" name="pSoftwareFlag">Required?
                                         
                                      </mat-slide-toggle>
                                     

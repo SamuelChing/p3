@@ -1,6 +1,10 @@
 .Options{
     margin-right: 1.5%;
 }
+
+
+
+
 .footer{
     //position: fixed;
    
@@ -268,6 +272,9 @@
         margin:1%;
     }
 }
+.addBody{
+    margin-bottom: 2%;
+}
 .viewWork{
     display: none;
     margin-bottom: 1%;
@@ -278,5 +285,19 @@
     }
     a{
        left:0%; 
+    }
+}
+//View Cards:
+.divTables{
+    .table{
+        margin: 1% 2% 0  2%;
+        border: 1px solid #4e4a4a82;
+    }
+    .tableInfo{
+        margin:1% 2% 0 2%;
+    }
+    .tableDescription{
+        margin:0.5% 2% 0 2%;
+       
     }
 }

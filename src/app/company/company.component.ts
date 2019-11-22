@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ActivatedRoute} from '@angular/router'
+import { element } from 'protractor';
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
@@ -26,16 +27,9 @@ export class CompanyComponent implements OnInit {
 
 
   /////
-  results$:Contest[]=[{ job:"string",
-    date1:"11-11-2019",
-    date2:new Date().toDateString(),
-    description:"The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."}
-  ,{job:"string2",
-  date1:"string2",
-  date2:new Date().toDateString(),
-  description:"The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."}];
+  
   /////
-  dato=this.results$[0].date2
+
   
   pJobName:string;
   pToday= new Date();
@@ -69,6 +63,22 @@ export class CompanyComponent implements OnInit {
   contests: Contest[]=[];
   dataSourceContest: MatTableDataSource<Contest>;
   displayColumnsContest = ["Job", "Date1","Date2","Action","End"];
+
+
+
+  //For views
+  dataSourceLanguage1: MatTableDataSource<Language>;
+  dataSourceSoftware1: MatTableDataSource<Software>;
+  dataSourceCertification1: MatTableDataSource<Certificacion>;
+  displayedColumnsSoftware1 = ["Software", "type"];
+  displayedColumnsLanguage1 = ["language", "conversational domain"];
+  displayedColumnsCertification1= ["Title"];
+
+
+
+
+
+
 
   constructor(private route: ActivatedRoute) { 
 
@@ -110,12 +120,18 @@ export class CompanyComponent implements OnInit {
     return dateResult
   }
   addContest(){
-    this.results$.push({
+    /*this.results$.push({
       job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
-    })
-    this.contests.push({
-      job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
-    })
+    ,language:this.languages,certificaction:this.certificaciones,software:this.software})
+    */
+   this.contests.push({
+      job:this.pJobName,
+      date1:this.pToday.toDateString(),
+      date2:this.pDate.toDateString(),
+      description:this.pDescription,
+      language:this.languages,
+      certificaction:this.certificaciones,
+      software:this.software})
     this.dataSourceContest= new MatTableDataSource(this.contests);
     this.startNewPost();
 
@@ -135,7 +151,9 @@ export class CompanyComponent implements OnInit {
     this.pToday=new Date(this.contests[rowid].date1.toString());
     this.pDescription= this.contests[rowid].description;
     this.pDate= new Date(this.contests[rowid].date2);
-
+    this.dataSourceSoftware1= new MatTableDataSource(this.contests[rowid].software);
+    this.dataSourceLanguage1= new MatTableDataSource(this.contests[rowid].language);
+    this.dataSourceCertification1= new MatTableDataSource(this.contests[rowid].certificaction);
   }
 
   //Add a lan to lantable
@@ -321,7 +339,7 @@ export class CompanyComponent implements OnInit {
       })    
   }
 
-  getPostSoftwares(postid){
+  getPostSoftwares(postid,counter){
     fetch("http://localhost:3000/postSoftwares/"+postid, {
         "method": "GET"        
       })
@@ -334,13 +352,17 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);        
+         console.log(jsonData);
+         jsonData.forEach(element => {
+          this.contests[counter].software.push({name:element.softwarename,type:element.softwaretype,required:element.needrate})
+          this.dataSourceSoftware1= new MatTableDataSource(this.contests[counter].software);
+          });
       })
       .catch(err => {
         console.log(err);
       })
   }
-  getPostCertifications(postid){
+  getPostCertifications(postid,count){
     fetch("http://localhost:3000/postCertifications/"+postid, {
         "method": "GET"        
       })
@@ -353,13 +375,21 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);        
+        jsonData.forEach(element => {
+          this.contests[count].certificaction.push(
+            {
+              title:element.certificationname,
+              required:element.needrate
+            }
+          );
+          this.dataSourceCertification1= new MatTableDataSource(this.contests[count].certificaction);
+        });        
       })
       .catch(err => {
         console.log(err);
       })
   }
-  getPostLanguages(postid){
+  getPostLanguages(postid,count){
     fetch("http://localhost:3000/postLanguages/"+postid, {
         "method": "GET"        
       })
@@ -372,7 +402,16 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);        
+        //Here goes the code     
+        jsonData.forEach(element => {
+          this.contests[count].language.push(
+            {
+              name: element.languagename,
+              domain: element.proficiency
+            }
+          );
+          this.dataSourceLanguage1= new MatTableDataSource(this.contests[count].language);
+        });
       })
       .catch(err => {
         console.log(err);
@@ -392,12 +431,32 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);        
+        console.log(jsonData); 
+        var count=0;
+        jsonData.forEach(element=>{
+          this.contests.push({
+            job:"element.pJobName",
+            date1:element.postdate,
+            date2:element.expirationdate,
+            description:element.description,
+            language:[],
+            certificaction:[],
+            software:[]
+            })
+          this.getPostSoftwares(element.postid,count);
+          this.getPostLanguages(element.postid,count);
+          this.getPostCertifications(element.postid,count);
+          count++;
+        }       
+        );
         jsonData.forEach(element => {          
-          this.getPostSoftwares(element.postid);
-          this.getPostCertifications(element.postid);
-          this.getPostLanguages(element.postid);
+          
+          //this.getPostCertifications(element.postid);
+          //this.getPostLanguages(element.postid);
+          //this.dat
         });
+        
+        this.dataSourceContest=new MatTableDataSource(this.contests);  
       })
       .catch(err => {
         console.log(err);
@@ -563,8 +622,8 @@ export interface Contest{
   date1:string;
   date2:string;
   description:string;
-  /*
-  language:Language;
-  certificaction:Certificacion;
-  software:Software;*/
+  
+  language:Language[];
+  certificaction:Certificacion[];
+  software:Software[];
 }
