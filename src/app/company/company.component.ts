@@ -230,6 +230,28 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{       
         console.log(jsonData);
+        var count=0;
+        this.users =[];
+        jsonData.forEach(element => {
+          this.users.push({
+            firstName:element.firstname,
+            lastName:element.lastname,
+            email:element.mail,
+            phone:element.phone,
+            language:[],
+            certification:[],
+            software:[],
+            experience:[],
+            studies:[]
+          })
+          
+          this.getWorks(element.userid,count);
+          this.getLanguages(element.userid,count);
+          this.getSoftware(element.userid,count);
+          this.getCertifications(element.userid,count);
+          this.getStudies(element.userid,count);
+          count++;
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -238,7 +260,7 @@ export class CompanyComponent implements OnInit {
       })
   }
 
-  getWorks(userPK){   
+  getWorks(userPK,count){   
     //console.log("Entra a works") 
     fetch("http://localhost:3000/userExperience/"+userPK,{
         "method": "GET"        
@@ -253,11 +275,9 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData);                
-        /*jsonData.forEach(element => {        
-          this.work.push({company:element.company,job:element.role,
-            date1:element.admissiondate,date2:element.departuredate,description:element.description,active:element.activejob});
-          this.dataSourceWork = new MatTableDataSource(this.work);
-        });*/
+        jsonData.forEach(element => {        
+          this.users[count].experience.push({company:element.company,job:element.role,date1:element.admissiondate,date2:element.departuredate,active:element.activejob,description:element.description})
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -266,7 +286,7 @@ export class CompanyComponent implements OnInit {
       })
   }
   
-  getLanguages(userPK){   
+  getLanguages(userPK,count){   
     //console.log("Entra a works") 
     fetch("http://localhost:3000/newLanguage/1/"+userPK,{
         "method": "GET"        
@@ -281,10 +301,9 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData);                
-        /*jsonData.forEach(element => { 
-          this.languages.push({name:element.language,domain:element.proficiency});
-          this.dataSourceLanguage = new MatTableDataSource(this.languages);
-        });*/
+        jsonData.forEach(element => { 
+          this.users[count].language.push({name:element.language,domain:element.proficiency});
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -292,7 +311,7 @@ export class CompanyComponent implements OnInit {
         console.log(err);
       })
   }
-  getSoftware(userPK){   
+  getSoftware(userPK,count){   
     //console.log("Entra a works") 
     fetch("http://localhost:3000/newSoftware/1/"+userPK,{
         "method": "GET"        
@@ -307,10 +326,9 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData);                
-        /*jsonData.forEach(element => {           
-          this.software.push(this.createSoftware(element.softwarename,element.softwaretype));
-          this.dataSourceSoftware = new MatTableDataSource(this.software);
-        });*/
+        jsonData.forEach(element => {           
+          this.users[count].software.push({name:element.softwarename,type:element.softwaretype});
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -318,7 +336,7 @@ export class CompanyComponent implements OnInit {
         console.log(err);
       })
   }
-  getCertifications(userPK){   
+  getCertifications(userPK,count){   
     //console.log("Entra a works") 
     fetch("http://localhost:3000/newCertification/1/"+userPK,{
         "method": "GET"        
@@ -333,10 +351,9 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{  
         console.log(jsonData);                
-        /*jsonData.forEach(element => { 
-          this.certificaciones.push({title:element.title,name:element.certificationgiver,year:element.certificationyear});
-          this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
-        });*/
+        jsonData.forEach(element => { 
+          this.users[count].certification.push({title:element.title,giver:element.certificationgiver});
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -344,7 +361,7 @@ export class CompanyComponent implements OnInit {
         console.log(err);
       })
   }
-  getStudies(userPK){   
+  getStudies(userPK,count){   
     console.log("Entra a works",userPK) 
     fetch("http://localhost:3000/userStudies/"+userPK,{
         "method": "GET"        
@@ -359,10 +376,9 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{        
         console.log(jsonData);                
-        /*jsonData.forEach(element => { 
-          this.studies.push({grade:element.grade,name:element.titlegiver,year:element.graduated});
-          this.dataSourceStudies = new MatTableDataSource(this.studies);
-        });*/
+        jsonData.forEach(element => { 
+          this.users[count].studies.push({grade:element.grade,name:element.titlegiver,year:element.graduated});
+        });
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -387,12 +403,7 @@ export class CompanyComponent implements OnInit {
       .then( (jsonData) =>{
         console.log(jsonData);
         jsonData.forEach(element => {
-          this.getUserInfo(element.userid);
-          this.getWorks(element.userid);
-          this.getLanguages(element.userid);
-          this.getSoftware(element.userid);
-          this.getCertifications(element.userid);
-          this.getStudies(element.userid);
+          this.getUserInfo(element.userid);          
           
         });
         //this.getUserAplications(jsonData[0].userid,post);        
@@ -835,6 +846,7 @@ export interface Certificacion{
 }
 export interface uCertificacion{
   title: string;
+  giver:string;
 }
 export interface uSoftware{
   name: string;
@@ -869,7 +881,7 @@ export interface Users{
   email:string;
   phone:string;
   language:Language[];
-  certificaction:uCertificacion[];
+  certification:uCertificacion[];
   software:uSoftware[];
   experience:Work[];
   studies:Study[];
