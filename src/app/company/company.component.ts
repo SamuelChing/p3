@@ -251,7 +251,7 @@ export class CompanyComponent implements OnInit {
     
   }
 
-  getUserInfo(user){
+  getUserInfo(user,count){
     fetch("http://localhost:3000/newUserData/"+user,{
         "method": "GET"        
       })
@@ -265,8 +265,8 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{       
         console.log(jsonData);
-        var count=0;
-        this.users =[];
+        
+        
         jsonData.forEach(element => {
           this.users.push({
             firstName:element.firstname,
@@ -286,10 +286,11 @@ export class CompanyComponent implements OnInit {
           this.getCertifications(element.userid,count);
           this.getStudies(element.userid,count);
           
-          count++;
+          //count++;
         });
-        console.log("revise aqui")
-        console.log(this.users);
+        //console.log("revise aqui")
+        //console.log(this.users);
+        console.log("salieron los interesados:",this.users)
         //this.dataSourceUsers= new MatTableDataSource(this.users);
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
@@ -301,6 +302,8 @@ export class CompanyComponent implements OnInit {
 
   getWorks(userPK,count){   
     //console.log("Entra a works") 
+    //console.log("Entrando en works",count)
+    //console.log("La lista de users: ",this.users)
     fetch("http://localhost:3000/userExperience/"+userPK,{
         "method": "GET"        
       })
@@ -313,7 +316,7 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);                
+        //console.log(jsonData);                
         jsonData.forEach(element => {        
           this.users[count].experience.push({company:element.company,job:element.role,date1:element.admissiondate,date2:element.departuredate,active:element.activejob,description:element.description})
         });
@@ -339,7 +342,7 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);                
+        //console.log(jsonData);                
         jsonData.forEach(element => { 
           this.users[count].language.push({name:element.language,domain:element.proficiency});
         });
@@ -364,7 +367,7 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{
-        console.log(jsonData);                
+        //console.log(jsonData);                
         jsonData.forEach(element => {           
           this.users[count].software.push({name:element.softwarename,type:element.softwaretype});
         });
@@ -389,7 +392,7 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{  
-        console.log(jsonData);                
+        //console.log(jsonData);                
         jsonData.forEach(element => { 
           this.users[count].certification.push({title:element.title,giver:element.certificationgiver});
         });
@@ -414,7 +417,7 @@ export class CompanyComponent implements OnInit {
         }
       })
       .then( (jsonData) =>{        
-        console.log(jsonData);                
+        //console.log(jsonData);                
         jsonData.forEach(element => { 
           this.users[count].studies.push({grade:element.grade,name:element.titlegiver,year:element.graduated});
         });
@@ -441,12 +444,15 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData);
-        
-        jsonData.forEach(element => {
-                  
-         this.getUserInfo(element.userid);
+        var count=0;
+        this.users =[];
+        jsonData.forEach(element => {                  
+         this.getUserInfo(element.userid,count);
+         count++;
         });
+
         
+        this.dataSourceUsers= new MatTableDataSource(this.users);        
         //this.getUserAplications(jsonData[0].userid,post);        
       })
       .catch(err => {
