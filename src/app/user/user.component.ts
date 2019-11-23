@@ -79,7 +79,8 @@ export class UserComponent implements OnInit {
   pToday= new Date();
   pDescription:string;
   pDate=new Date();
-
+  //
+  pActualPost:Number;
   constructor(private route: ActivatedRoute) {
     this.dataSourceCertification= new MatTableDataSource(this.certificaciones);
     this.dataSourceLanguage= new MatTableDataSource(this.languages);
@@ -101,8 +102,9 @@ export class UserComponent implements OnInit {
      this.getData();
      this.startLoadPosts();
   }
-  applyToJob(){
-    console.log("You touched this button!")
+  applyToJob(rowid:number){
+    //console.log("You touched this button!")
+    this.startGetUserAplications(this.pActualPost);
   }
   closeView(){
     this.pJobName=""
@@ -119,6 +121,7 @@ export class UserComponent implements OnInit {
     //var personDiv = (<HTMLElement>document.getElementById("addBody"));
     companyDiv.style.display="block";
     //personDiv.style.display="none";
+    this.pActualPost=this.contests[rowid].postID;
     this.pJobName=this.contests[rowid].job;
     this.pToday=new Date(this.contests[rowid].date1.toString());
     this.pDescription= this.contests[rowid].description;
@@ -242,6 +245,74 @@ export class UserComponent implements OnInit {
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
   }
+  sendAplication(user,post){    
+    fetch("http://localhost:3000/postAplication/:"+user+"/"+post, {
+        "method": "POST",
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+          },
+          body: JSON.stringify({"user":user,"post":post})
+      }).then(function(response) {
+        //console.log(response);
+        if(response.status ==201){            
+          console.log("Application added correctly");            
+        }else{            
+          alert("Error adding this application");
+        }
+      });
+  }
+  getUserAplications(user,post){
+    console.log(user,post)
+    //console.log("Usuario:",this.userLogged)
+    fetch("http://localhost:3000/postAplication/"+user+"/"+post, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        //console.log("cuantos posts hay",JSON.stringify(jsonData))
+        if(JSON.stringify(jsonData).length ==2){
+          alert("Your application to this post has been sent.")
+          this.sendAplication(user,post);
+        }      
+        else{
+          alert("You have already applied to this job, please wait patiently for a response.")
+        }    
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  
+  startGetUserAplications(post){
+    console.log("Usuario:",this.userLogged)
+    fetch("http://localhost:3000/users/"+1+"/"+this.userLogged, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);
+        this.getUserAplications(jsonData[0].userid,post);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   getPostSoftwares(postid,counter){
     fetch("http://localhost:3000/postSoftwares/"+postid, {
         "method": "GET"        

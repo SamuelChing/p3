@@ -36,6 +36,7 @@ export class CompanyComponent implements OnInit {
   pToday= new Date();
   pDescription:string;
   pDate=new Date();
+  pPostID: number
   //Certifications
   certificaciones:Certificacion[]=[];
   pCertificado_Title: string;
@@ -65,7 +66,8 @@ export class CompanyComponent implements OnInit {
   dataSourceContest: MatTableDataSource<Contest>;
   displayColumnsContest = ["Job", "Date1","Date2","Action","End"];
 
-
+  //
+  users:Users[]=[];
 
   //For views
   dataSourceLanguage1: MatTableDataSource<Language>;
@@ -116,11 +118,17 @@ export class CompanyComponent implements OnInit {
     this.pJobName=""
     this.pToday=new Date();
     this.pDescription= ""
+    this.pPostID=-1;
     this.pDate= new Date();
     var companyDiv = (<HTMLElement>document.getElementById("viewWork")); 
     var personDiv = (<HTMLElement>document.getElementById("addBody"));
     companyDiv.style.display="none";
     personDiv.style.display="block";
+  }
+
+  viewInterested(rowid:number){
+    console.log(rowid);
+    this.getInterested(this.contests[rowid].postID);
   }
   fixDate(date:Date){
     var dateResult= (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
@@ -158,6 +166,8 @@ export class CompanyComponent implements OnInit {
     var personDiv = (<HTMLElement>document.getElementById("addBody"));
     companyDiv.style.display="block";
     personDiv.style.display="none";
+    this.pPostID=rowid;
+    console.log("This is the actual id:"+this.pPostID);
     this.pJobName=this.contests[rowid].job;
     this.pToday=new Date(this.contests[rowid].date1.toString());
     this.pDescription= this.contests[rowid].description;
@@ -204,6 +214,192 @@ export class CompanyComponent implements OnInit {
     this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType,this.pSoftwareFlag));
     this.dataSourceSoftware = new MatTableDataSource(this.software);
     
+  }
+
+  getUserInfo(user){
+    fetch("http://localhost:3000/newUserData/"+user,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{       
+        console.log(jsonData);
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  getWorks(userPK){   
+    //console.log("Entra a works") 
+    fetch("http://localhost:3000/userExperience/"+userPK,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);                
+        /*jsonData.forEach(element => {        
+          this.work.push({company:element.company,job:element.role,
+            date1:element.admissiondate,date2:element.departuredate,description:element.description,active:element.activejob});
+          this.dataSourceWork = new MatTableDataSource(this.work);
+        });*/
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  
+  getLanguages(userPK){   
+    //console.log("Entra a works") 
+    fetch("http://localhost:3000/newLanguage/1/"+userPK,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);                
+        /*jsonData.forEach(element => { 
+          this.languages.push({name:element.language,domain:element.proficiency});
+          this.dataSourceLanguage = new MatTableDataSource(this.languages);
+        });*/
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getSoftware(userPK){   
+    //console.log("Entra a works") 
+    fetch("http://localhost:3000/newSoftware/1/"+userPK,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);                
+        /*jsonData.forEach(element => {           
+          this.software.push(this.createSoftware(element.softwarename,element.softwaretype));
+          this.dataSourceSoftware = new MatTableDataSource(this.software);
+        });*/
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getCertifications(userPK){   
+    //console.log("Entra a works") 
+    fetch("http://localhost:3000/newCertification/1/"+userPK,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{  
+        console.log(jsonData);                
+        /*jsonData.forEach(element => { 
+          this.certificaciones.push({title:element.title,name:element.certificationgiver,year:element.certificationyear});
+          this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
+        });*/
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+  getStudies(userPK){   
+    console.log("Entra a works",userPK) 
+    fetch("http://localhost:3000/userStudies/"+userPK,{
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{        
+        console.log(jsonData);                
+        /*jsonData.forEach(element => { 
+          this.studies.push({grade:element.grade,name:element.titlegiver,year:element.graduated});
+          this.dataSourceStudies = new MatTableDataSource(this.studies);
+        });*/
+        //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
+        //FiltroCiudad(jsonData);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  getInterested(post){
+    console.log("Usuario:",this.userLogged)
+    fetch("http://localhost:3000/postAplication/"+post, {
+        "method": "GET"        
+      })
+      .then(response => {
+        if(response.ok){
+            //console.log(response);
+            return response.json();
+        }else{
+            throw new Error('BAD HTTP stuff');
+        }
+      })
+      .then( (jsonData) =>{
+        console.log(jsonData);
+        jsonData.forEach(element => {
+          this.getUserInfo(element.userid);
+          this.getWorks(element.userid);
+          this.getLanguages(element.userid);
+          this.getSoftware(element.userid);
+          this.getCertifications(element.userid);
+          this.getStudies(element.userid);
+          
+        });
+        //this.getUserAplications(jsonData[0].userid,post);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   getLastPost(post){
@@ -453,7 +649,7 @@ export class CompanyComponent implements OnInit {
             description:element.description,
             language:[],
             certificaction:[],
-            software:[]
+            software:[]          
             })
           this.getPostSoftwares(element.postid,count);
           this.getPostLanguages(element.postid,count);
@@ -521,10 +717,9 @@ export class CompanyComponent implements OnInit {
           }
       }).then((response)=> {
         console.log(response);
-        if(response.status ==201){
-          
-          alert("Company added correctly");
-          
+        if(response.status ==201){          
+          alert("The post has been finished");
+          window.location.reload();
         }else{
           alert("Error adding this user data");
         }
@@ -638,6 +833,13 @@ export interface Certificacion{
   title: string;
   required:boolean;
 }
+export interface uCertificacion{
+  title: string;
+}
+export interface uSoftware{
+  name: string;
+  type: string;
+}
 export interface Study{
   grade: string;
   name: string;
@@ -660,4 +862,15 @@ export interface Contest{
   language:Language[];
   certificaction:Certificacion[];
   software:Software[];
+}
+export interface Users{
+  firstName:string;
+  lastName:string;
+  email:string;
+  phone:string;
+  language:Language[];
+  certificaction:uCertificacion[];
+  software:uSoftware[];
+  experience:Work[];
+  studies:Study[];
 }

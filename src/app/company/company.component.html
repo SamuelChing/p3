@@ -22,7 +22,9 @@
         <div class="addContest">
                 <div class="viewWork" id="viewWork">
                         <mat-card>
+                                
                                 <a mat-raised-button color="warn" (click)="closeView()" class="backBoton">X</a>
+                                <a mat-raised-button color="primary" (click)="viewInterested(pPostID)" class="backBoton">view interested</a>
                                 <mat-card-title>{{pJobName}}</mat-card-title>
                                 <mat-card-subtitle><h4>Date of registration</h4> <p>{{pToday}}</p></mat-card-subtitle>
                                 <mat-card-subtitle><h4>Date of admission</h4><p>{{pDate}}</p></mat-card-subtitle>
