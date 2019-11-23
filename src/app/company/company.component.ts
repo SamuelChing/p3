@@ -291,7 +291,7 @@ export class CompanyComponent implements OnInit {
         //console.log("revise aqui")
         //console.log(this.users);
         console.log("salieron los interesados:",this.users)
-        //this.dataSourceUsers= new MatTableDataSource(this.users);
+        this.dataSourceUsers= new MatTableDataSource(this.users);
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
