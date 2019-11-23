@@ -66,7 +66,20 @@ export class UserComponent implements OnInit {
   dataSourceWork: MatTableDataSource<Work>;
   //Companies contests
   contests: Contest[]=[];
-  
+  dataSourceContest: MatTableDataSource<Contest>;
+  displayColumnsContest = ["Job", "Date1","Date2","Action"];
+  //TABLAS POR CONTEST
+  dataSourceLanguage1: MatTableDataSource<Language>;
+  dataSourceSoftware1: MatTableDataSource<Software>;
+  dataSourceCertification1: MatTableDataSource<cCertificacion>;
+  displayedColumnsSoftware1 = ["Software", "type"];
+  displayedColumnsLanguage1 = ["language", "conversational domain"];
+  displayedColumnsCertification1= ["Title"];
+  pJobName:string;
+  pToday= new Date();
+  pDescription:string;
+  pDate=new Date();
+
   constructor(private route: ActivatedRoute) {
     this.dataSourceCertification= new MatTableDataSource(this.certificaciones);
     this.dataSourceLanguage= new MatTableDataSource(this.languages);
@@ -86,6 +99,33 @@ export class UserComponent implements OnInit {
   ngOnInit() {
      this.userLogged=this.route.snapshot.paramMap.get('id');
      this.getData();
+     this.startLoadPosts();
+  }
+  applyToJob(){
+    console.log("You touched this button!")
+  }
+  closeView(){
+    this.pJobName=""
+    this.pToday=new Date();
+    this.pDescription= ""
+    this.pDate= new Date();
+    var companyDiv = (<HTMLElement>document.getElementById("justView")); 
+    //var personDiv = (<HTMLElement>document.getElementById("addBody"));
+    companyDiv.style.display="none";
+    //personDiv.style.display="block";
+  }
+  selectContest(rowid:number){
+    var companyDiv = (<HTMLElement>document.getElementById("justView")); 
+    //var personDiv = (<HTMLElement>document.getElementById("addBody"));
+    companyDiv.style.display="block";
+    //personDiv.style.display="none";
+    this.pJobName=this.contests[rowid].job;
+    this.pToday=new Date(this.contests[rowid].date1.toString());
+    this.pDescription= this.contests[rowid].description;
+    this.pDate= new Date(this.contests[rowid].date2);
+    this.dataSourceSoftware1= new MatTableDataSource(this.contests[rowid].cSoftware);
+    this.dataSourceLanguage1= new MatTableDataSource(this.contests[rowid].language);
+    this.dataSourceCertification1= new MatTableDataSource(this.contests[rowid].cCertificaction);
   }
   changeToEdit(){
     var companyDiv = (<HTMLElement>document.getElementById("viewContest")); 
@@ -298,6 +338,7 @@ export class UserComponent implements OnInit {
       .then( (jsonData) =>{
         console.log(jsonData); 
         var count=0;
+        this.contests=[];
         jsonData.forEach(element=>{
           this.contests.push({
             postID:element.postid,
@@ -313,9 +354,10 @@ export class UserComponent implements OnInit {
           this.getPostLanguages(element.postid,count);
           this.getPostCertifications(element.postid,count);
           count++;
+          
         }       
         );
-        
+        this.dataSourceContest= new MatTableDataSource(this.contests);
         //this.dataSourceContest=new MatTableDataSource(this.contests);  
       })
       .catch(err => {
@@ -848,6 +890,10 @@ export interface Language{
   name: string;
   domain: string;
 }
+export interface cLanguage{
+  name: string;
+  domain: string;
+}
 export interface Certificacion{
   title: string;
   name: string;
@@ -876,7 +922,7 @@ export interface Contest{
   date2:string;
   description:string;
   postID:Number;
-  language:Language[];
+  language:cLanguage[];
   cCertificaction:cCertificacion[];
   cSoftware:cSoftware[];
 }

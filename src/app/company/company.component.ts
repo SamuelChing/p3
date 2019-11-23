@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ActivatedRoute} from '@angular/router'
-import { element } from 'protractor';
+
+import languagesJson from '../../assets/languages.json';
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
@@ -74,6 +75,9 @@ export class CompanyComponent implements OnInit {
   displayedColumnsLanguage1 = ["language", "conversational domain"];
   displayedColumnsCertification1= ["Title"];
 
+  //FOR COMBOBOX
+  languages1$:any[];
+
 
 
 
@@ -81,7 +85,10 @@ export class CompanyComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute) { 
-
+    this.languages1$=new Array();
+    languagesJson.forEach(element=>{
+      this.languages1$.push({name:element.name});
+    });
   }
 
   ngOnInit() {

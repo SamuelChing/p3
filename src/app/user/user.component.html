@@ -18,7 +18,150 @@
 
     </div>
     <div class="viewContest" id="viewContest">
+        <mat-card-title class="title">
+                Job offers
+        </mat-card-title>
+        <mat-card-subtitle class="description">
+         <p>View the offers that companies posted lately and apply to them, good luck</p>
+        </mat-card-subtitle>
+        <mat-card>
+                <mat-table #table [dataSource]="dataSourceContest">
+            
+                        <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+                    
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="Job">
+                          <mat-header-cell *matHeaderCellDef > Job </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> {{row.job}} </mat-cell>
+                        </ng-container>
+                    
+                        <!-- Progress Column -->
+                        <ng-container matColumnDef="Date1">
+                          <mat-header-cell *matHeaderCellDef > Date of registration </mat-header-cell>
+                          <mat-cell *matCellDef="let row"> {{row.date1}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="Date2">
+                                <mat-header-cell *matHeaderCellDef > Date of admission </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.date2}} </mat-cell>
+                              </ng-container>
+                       
+                        <ng-container matColumnDef="Action">
+                                <mat-header-cell *matHeaderCellDef > Action </mat-header-cell>
+                                <mat-cell *matCellDef="let element;  let j = index;"> 
+                                        <a mat-raised-button  color="primary" focusable="false" (click)="selectContest(j)">
+                                                        View
+                                        </a> 
+                                </mat-cell>
+                                
+                        </ng-container>
+                       
+                       
+                    
+                        <mat-header-row *matHeaderRowDef="displayColumnsContest"></mat-header-row>
+                        <mat-row  *matRowDef="let row; columns: displayColumnsContest;"></mat-row>
+                      </mat-table>
+        </mat-card>
+        <mat-card class="justView" id="justView">
+                        <a mat-raised-button color="warn" (click)="closeView()" class="backBoton">X</a>
+                        <h1>{{pJobName}}</h1>
+                        <mat-card-subtitle><h4>Date of registration</h4> <p>{{pToday}}</p></mat-card-subtitle>
+                        <mat-card-subtitle><h4>Date of admission</h4><p>{{pDate}}</p></mat-card-subtitle>
+                        
+                        <mat-card-content>
+                          <h4>Description</h4>      
+                         <p>
+                               {{pDescription}}
+                         </p>
+                        </mat-card-content>
+                        <div class="divTables">
+                        <mat-card-title class="tableInfo">
+                                Certifications
+                        </mat-card-title>
+                        <mat-card-subtitle class="tableDescription">
+                                This are the certifications you needed for this job
+                        </mat-card-subtitle>
+                        <mat-table class="table" #table [dataSource]="dataSourceCertification1">
 
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+                            
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="Title">
+                                  <mat-header-cell *matHeaderCellDef > Title </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+                                </ng-container>
+                            
+                                <!-- Progress Column -->
+                               
+                              
+                               
+                            
+                                <mat-header-row *matHeaderRowDef="displayedColumnsCertification1"></mat-header-row>
+                                <mat-row  *matRowDef="let row; columns: displayedColumnsCertification1;"></mat-row>
+                        </mat-table>
+                        <mat-card-title class="tableInfo">
+                                Languages
+                        </mat-card-title>
+                        <mat-card-subtitle class="tableDescription">
+                                This are the languages you needed to dominate for this job
+                        </mat-card-subtitle>
+                        <mat-table class="table" #table [dataSource]="dataSourceLanguage1">
+
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+                            
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="language">
+                                  <mat-header-cell *matHeaderCellDef > Language </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                </ng-container>
+                            
+                                <!-- Progress Column -->
+                                <ng-container matColumnDef="conversational domain">
+                                  <mat-header-cell *matHeaderCellDef > Conversational domain </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.domain}} </mat-cell>
+                                </ng-container>
+                                
+                               
+                            
+                                <mat-header-row *matHeaderRowDef="displayedColumnsLanguage1"></mat-header-row>
+                                <mat-row  *matRowDef="let row; columns: displayedColumnsLanguage1;"></mat-row>
+                        </mat-table>
+                        <mat-card-title class="tableInfo">
+                                Softwares
+                        </mat-card-title>
+                        <mat-card-subtitle class="tableDescription">
+                                This are the softwares you know need to dominate for this job
+                        </mat-card-subtitle>
+                        <mat-table class="table" #table [dataSource]="dataSourceSoftware1">
+    
+                                <!--- Note that these columns can be defined in any order.
+                                      The actual rendered columns are set as a property on the row definition" -->
+                            
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="Software">
+                                  <mat-header-cell *matHeaderCellDef > Software </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+                                </ng-container>
+                            
+                                <!-- Progress Column -->
+                                <ng-container matColumnDef="type">
+                                  <mat-header-cell *matHeaderCellDef > Type Of Software </mat-header-cell>
+                                  <mat-cell *matCellDef="let row"> {{row.type}} </mat-cell>
+                                </ng-container>
+                                
+                               
+                            
+                                <mat-header-row *matHeaderRowDef="displayedColumnsSoftware1"></mat-header-row>
+                                <mat-row  *matRowDef="let row; columns: displayedColumnsSoftware1;"></mat-row>
+                        </mat-table>
+                        
+                        </div>
+                        <div class="divButton">
+                                        <a mat-raised-button color="primary" (click)="applyToJob()" class="Options" >Apply</a>
+                        </div>
+        </mat-card>
     </div>
     <div class="home" id="home">
         <div class="editGeneral">

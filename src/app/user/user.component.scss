@@ -17,6 +17,7 @@
     display: inline-block
     }
 }
+
 .header{
     //position: fixed;
     width:100%;
@@ -60,7 +61,7 @@
 }
 .home{
     text-align: center;
-    display: inline-block;
+    display: none;
     width:100%;
     .editGeneral{
         margin: 1%;
@@ -72,6 +73,7 @@
         }
     }
 }
+
 .logOff{
  position: absolute;
  right: 0%;
@@ -224,3 +226,59 @@
         margin:1%;
     }
 }
+
+//All about view COntest
+.viewContest{
+    margin:1%;
+    .title,.description{
+        text-align: left;
+       
+    }
+    .title{
+        margin: 1% 0 0 1%;
+    }
+    .description{
+        margin: 0 0 0 1%;
+    }
+    
+
+}
+.justView{
+
+    display: none;
+    margin-top: 1%;
+    text-align: right;
+    h1,mat-card-title,mat-card-subtitle,mat-card-content{
+        margin:2%;
+        text-align: left;
+    }
+    a{
+       left:0%; 
+    }
+    .divButton{
+        display: inline-block;
+        text-align: center;
+        width:95%;
+        margin: 1%;
+        .apply{
+            width: 15%;
+            
+        }
+    }
+}
+.divTables{
+    .table{
+        margin: 1% 2% 0  2%;
+        border: 1px solid #4e4a4a82;
+    }
+    .tableInfo{
+        margin:1% 2% 0 2%;
+    }
+    .tableDescription{
+        margin:0.5% 2% 0 2%;
+       
+    }
+}
+
+
+
