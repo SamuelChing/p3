@@ -67,7 +67,7 @@ export class CompanyComponent implements OnInit {
   displayColumnsContest = ["Job", "Date1","Date2","Action","End"];
 
   //
-  users:Users[]=[];
+ 
 
   //For views
   dataSourceLanguage1: MatTableDataSource<Language>;
@@ -80,9 +80,15 @@ export class CompanyComponent implements OnInit {
   //FOR COMBOBOX
   languages1$:any[];
 
+  //User info
+  users:Users[]=[];
+  pFullName:string;
+  dataSourceUsers: MatTableDataSource<Users>;
+  displayedColumnsUser=["First Name","Last Name","Email","Phone","Action"];
 
-
-
+  userdataSourceLanguage1: MatTableDataSource<Language>;
+  userdataSourceSoftware1: MatTableDataSource<uSoftware>;
+  userdataSourceCertification1: MatTableDataSource<uCertificacion>;
 
 
 
@@ -125,14 +131,43 @@ export class CompanyComponent implements OnInit {
     companyDiv.style.display="none";
     personDiv.style.display="block";
   }
-
+  viewCompare(rowid:number){
+    var interest = (<HTMLElement>document.getElementById("divCompare")); 
+    var personDiv = (<HTMLElement>document.getElementById("divInterested"));
+    interest.style.display="block";
+    personDiv.style.display="none";
+    console.log("Compare negro")
+    console.log(this.users[0].certification);
+    console.log(this.users[0].software)
+    this.userdataSourceLanguage1=new MatTableDataSource(this.users[0].language);
+    this.userdataSourceSoftware1= new MatTableDataSource(this.users[0].software)
+    this.userdataSourceCertification1= new MatTableDataSource(this.users[0].certification);
+  }
+  closeComapre(){
+    var interest = (<HTMLElement>document.getElementById("divCompare")); 
+    var personDiv = (<HTMLElement>document.getElementById("divInterested"));
+    interest.style.display="none";
+    personDiv.style.display="block";
+  }
   viewInterested(rowid:number){
     console.log(rowid);
+    var interest = (<HTMLElement>document.getElementById("divInterested")); 
+    var personDiv = (<HTMLElement>document.getElementById("viewWork"));
+    interest.style.display="block";
+    personDiv.style.display="none";
+    
     this.getInterested(this.contests[rowid].postID);
   }
   fixDate(date:Date){
     var dateResult= (date.getFullYear()+"-"+(date.getMonth()+1)+"-"+(date.getDate()));
     return dateResult
+  }
+  closeUsers(){
+    this.pFullName=""
+    var interest = (<HTMLElement>document.getElementById("divInterested")); 
+    var personDiv = (<HTMLElement>document.getElementById("viewWork"));
+    interest.style.display="none";
+    personDiv.style.display="block";
   }
   addContest(){
     /*this.results$.push({
@@ -250,8 +285,12 @@ export class CompanyComponent implements OnInit {
           this.getSoftware(element.userid,count);
           this.getCertifications(element.userid,count);
           this.getStudies(element.userid,count);
+          
           count++;
         });
+        console.log("revise aqui")
+        console.log(this.users);
+        //this.dataSourceUsers= new MatTableDataSource(this.users);
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
       })
@@ -402,10 +441,12 @@ export class CompanyComponent implements OnInit {
       })
       .then( (jsonData) =>{
         console.log(jsonData);
+        
         jsonData.forEach(element => {
-          this.getUserInfo(element.userid);          
-          
+                  
+         this.getUserInfo(element.userid);
         });
+        
         //this.getUserAplications(jsonData[0].userid,post);        
       })
       .catch(err => {

@@ -302,3 +302,22 @@
        
     }
 }
+.divCompare,.divInterested{
+    display:none
+}
+
+//Compare
+.personCompare,.jobCompare{
+    //float:left;
+   border: 1px solid #4e4a4a82;
+   margin:1%;
+    .tableInfo{
+        margin:1%;
+        text-align: left;
+    }
+    .table{
+        margin-top: 0.5%;
+        border: 1px solid #4e4a4a82;
+    }
+
+}
