@@ -174,6 +174,8 @@ export class CompanyComponent implements OnInit {
       job:this.pJobName,date1:this.pToday.toDateString(),date2:this.pDate.toDateString(),description:this.pDescription
     ,language:this.languages,certificaction:this.certificaciones,software:this.software})
     */
+   if(this.pJobName && this.pDescription &&  (this.languages) || this.languages.length
+   && (this.software || this.software.length) && (this.certificaciones || this.certificaciones.length)){
    this.contests.push({
       postID:1,
       job:this.pJobName,
@@ -185,6 +187,10 @@ export class CompanyComponent implements OnInit {
       software:this.software})
     this.dataSourceContest= new MatTableDataSource(this.contests);
     this.startNewPost();
+   }
+   else{
+     alert("Please fill all the inputs")
+   }
 
   }
   deleteContest(rowid:number){
@@ -215,8 +221,13 @@ export class CompanyComponent implements OnInit {
   //Add a lan to lantable
   addLanguage(){
     
-    this.languages.push({name:this.pLanguage,domain:this.pDomain});
-    this.dataSourceLanguage = new MatTableDataSource(this.languages);
+    if(this.pDomain && this.pLanguage){
+      this.languages.push({name:this.pLanguage,domain:this.pDomain});
+      this.dataSourceLanguage = new MatTableDataSource(this.languages);
+    }
+    else{
+      alert("Please fill all the inputs to add a language")
+    }
     
   }
   //Delete a row from lanTable
@@ -246,8 +257,13 @@ export class CompanyComponent implements OnInit {
   //Adds a software to software table
   addSoftware(){
     
-    this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType,this.pSoftwareFlag));
-    this.dataSourceSoftware = new MatTableDataSource(this.software);
+    if(this.pSoftware && this.pSoftwareType){
+      this.software.push({name:this.pSoftware,type:this.pSoftwareType,required:this.pSoftwareFlag});
+      this.dataSourceSoftware = new MatTableDataSource(this.software);
+    }
+    else{
+      alert("Please fill al the inputs in order to add a Software");
+    }
     
   }
 
@@ -864,10 +880,13 @@ export class CompanyComponent implements OnInit {
   }
 
   addCertification(){
-    
-    this.certificaciones.push({title:this.pCertificado_Title,required:this.pCertificationFlag});
-    this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
-    
+      if(this.pCertificado_Title){
+      this.certificaciones.push({title:this.pCertificado_Title,required:this.pCertificationFlag});
+      this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
+      }
+      else{
+        alert("Please fill all the inputs of the certification")
+      }
     }
     //Deletes a row from certification
     deleteCertification(rowid: number){
