@@ -304,6 +304,28 @@
 }
 .divCompare,.divInterested{
     display:none
+  
+}
+.divInterested{
+    margin:1%;
+    .tableTitle{
+        text-align: left;
+    }
+    a{
+        float: right;
+    }
+}
+.divCompare{
+    text-align: left;
+    a{
+        float:right;
+    }
+    .tableTitle{
+        text-align: center;
+    }
+    mat-card-title,mat-table{
+        margin:1%;
+    }
 }
 
 //Compare
@@ -321,3 +343,4 @@
     }
 
 }
+

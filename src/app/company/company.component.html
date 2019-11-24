@@ -23,7 +23,7 @@
                 <div class="divInterested" id="divInterested">
                         <mat-card class="cardInteresed">
                         <a mat-raised-button color="warn" (click)="closeUsers()" class="backBoton">X</a>
-                        <mat-card-title>People interested in this job</mat-card-title> 
+                        <mat-card-title class="tableTitle">People interested in this job</mat-card-title> 
                         <mat-table class="table" #table [dataSource]="dataSourceUsers">
 
                                       
@@ -69,8 +69,8 @@
                                 
                                 <mat-card class="personCompare">
                                         <a mat-raised-button color="warn" (click)="closeComapre()" class="backBoton">X</a>
-                                        <mat-card-title>Person Information</mat-card-title>
-                                                <mat-card-title class="tableInfo">
+                                        <mat-card-title class="tableTitle">Person Information</mat-card-title>
+                                                <mat-card-title >
                                                         Software
                                                 </mat-card-title>
                                                 <mat-table class="table" #table [dataSource]="userdataSourceSoftware1">
@@ -144,7 +144,7 @@
                                                 </mat-table>
                                 </mat-card >
                                 <mat-card class="jobCompare">
-                                                <mat-card-title>Job requirements</mat-card-title>
+                                                <mat-card-title class="tableTitle">Job requirements</mat-card-title>
                                                 <mat-card-title class="tableInfo">
                                                                 Software
                                                 </mat-card-title>
@@ -554,6 +554,9 @@
                 </mat-card>
                 </div>
                 <mat-card>
+                        <mat-card-title style="text-align: center; margin: 1%;">
+                          Registered jobs
+                        </mat-card-title>
                         <mat-table #table [dataSource]="dataSourceContest">
             
                                 <!--- Note that these columns can be defined in any order.

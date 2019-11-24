@@ -205,8 +205,12 @@ export class CompanyComponent implements OnInit {
   selectContest(rowid:number){
     var companyDiv = (<HTMLElement>document.getElementById("viewWork")); 
     var personDiv = (<HTMLElement>document.getElementById("addBody"));
+    var div = (<HTMLElement>document.getElementById("divInterested"));
+    var div1 = (<HTMLElement>document.getElementById("divCompare"));
     companyDiv.style.display="block";
     personDiv.style.display="none";
+    div.style.display="none";
+    div1.style.display="none";
     this.pPostID=rowid;
     console.log("This is the actual id:"+this.pPostID);
     this.pJobName=this.contests[rowid].job;
