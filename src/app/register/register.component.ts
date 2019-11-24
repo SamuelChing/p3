@@ -118,10 +118,15 @@ export class RegisterComponent implements OnInit {
     else{
       activeFlag="no"
     }
-
-    this.work.push({company:this.pWork_Company,job:this.pWork_job,
-      date1:this.fixDate(this.pWork_date1),date2:this.fixDate(this.pWork_date2),description:this.pWork_des,active:this.pWorkisChecked});
-    this.dataSourceWork = new MatTableDataSource(this.work);
+    if(this.pWork_Company && this.pWork_job && this.pWork_date2 && this.pWork_date1 && this.pWork_des){
+      this.work.push({company:this.pWork_Company,job:this.pWork_job,
+      date1:this.fixDate(this.pWork_date1),date2:this.fixDate(this.pWork_date2),
+      description:this.pWork_des,active:this.pWorkisChecked});
+      this.dataSourceWork = new MatTableDataSource(this.work);
+    }
+    else{
+      alert("Please fill all the inputs of your work experience")
+    }
   }
   //Deletes work from work table
   deleteWork(rowid:number){
@@ -132,8 +137,13 @@ export class RegisterComponent implements OnInit {
   }
   //AddStudies
   addStudy(){
-    this.studies.push({grade:this.pStudy_grade,name:this.pStudy_name,year:this.fixDate(this.pStudy_year)});
-    this.dataSourceStudies = new MatTableDataSource(this.studies);
+    if(this.pStudy_grade && this.pStudy_name && this.pStudy_year){
+      this.studies.push({grade:this.pStudy_grade,name:this.pStudy_name,year:this.fixDate(this.pStudy_year)});
+      this.dataSourceStudies = new MatTableDataSource(this.studies);
+    }
+    else{
+      alert("Please fill all the inputs");
+    }
   }
   //delete row from Studies
   deleteStudy(rowid: number){
@@ -148,8 +158,13 @@ export class RegisterComponent implements OnInit {
 
   addCertification(){
     
-  this.certificaciones.push({title:this.pCertificado_Title,name:this.pCertificado_name,year:this.fixDate(this.pCertificado_year)});
-  this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
+    if(this.pCertificado_Title && this.pCertificado_name && this.pCertificado_year){
+      this.certificaciones.push({title:this.pCertificado_Title,name:this.pCertificado_name,year:this.fixDate(this.pCertificado_year)});
+      this.dataSourceCertification = new MatTableDataSource(this.certificaciones);
+      }
+      else{
+        alert("Please fill all the inputs in the certification section")
+      }
   
   }
   //Deletes a row from certification
@@ -165,8 +180,13 @@ export class RegisterComponent implements OnInit {
   //Add a lan to lantable
   addLanguage(){
     
-    this.languages.push({name:this.pLanguage,domain:this.pDomain});
-    this.dataSourceLanguage = new MatTableDataSource(this.languages);
+    if(this.pDomain && this.pLanguage){
+      this.languages.push({name:this.pLanguage,domain:this.pDomain});
+      this.dataSourceLanguage = new MatTableDataSource(this.languages);
+    }
+    else{
+      alert("Please fill all the inputs to add a language")
+    }
     
   }
   //Delete a row from lanTable
@@ -196,8 +216,13 @@ export class RegisterComponent implements OnInit {
   //Adds a software to software table
   addSoftware(){
     
-    this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType));
-    this.dataSourceSoftware = new MatTableDataSource(this.software);
+    if(this.pSoftware && this.pSoftwareType){
+      this.software.push(this.createSoftware(this.pSoftware,this.pSoftwareType));
+      this.dataSourceSoftware = new MatTableDataSource(this.software);
+    }
+    else{
+      alert("Please fill al the inputs in order to add a Software");
+    }
     
   }
 
