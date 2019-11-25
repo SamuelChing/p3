@@ -389,6 +389,7 @@ export class RegisterComponent implements OnInit {
           this.makePostExperience(type,username,jsonData[0].userid);
           this.makePostStudies(type,username,jsonData[0].userid);
           alert("User information added correctly");
+          window.location.reload();
         }
         //Nombre de la función a la que quiere retornar el jsonData, ya que no se puede con el return
         //FiltroCiudad(jsonData);
@@ -416,6 +417,7 @@ export class RegisterComponent implements OnInit {
           }
           else{
             alert("Company added correctly");
+            window.location.reload();
           }
         }else{
           alert("Error adding this user data");

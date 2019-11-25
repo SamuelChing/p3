@@ -517,7 +517,7 @@ export class CompanyComponent implements OnInit {
       }).then(async (response)=> {
         console.log(response);
         if(response.status ==201){          
-          alert("User updated correctly"); 
+          alert("Your job has been added correctly"); 
           this.getLastPost(companyData.company);
         }else{
           alert("Error adding this user data");
